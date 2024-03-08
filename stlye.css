@@ -1,6 +1,6 @@
 body{
     background-color: rgb(227, 252, 255);
-    color:white;
+    color:rgb(0, 0, 0);
     text-decoration-color: black;
     /* overflow:hidden; */
 }
@@ -23,7 +23,7 @@ h1{
     'tables tables simulation simulation simulation simulation';
     height:100%;
     width:100%;
-    border-top:20px solid rgb(255, 199, 192);
+    border-top:20px solid rgb(140, 113, 110);
     padding-right: 10px;
 
 }
@@ -164,7 +164,8 @@ a{
     padding: 0.5rem;
     border-bottom-width: 0.2em;
     border-bottom-style: solid;
-    border-bottom-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(194, 194, 194);
+    color:rgb(219, 154, 75);
 }
 
 img{
@@ -220,33 +221,50 @@ button{
 } */
 
 #learningRate{
-    width: 300px;
+    /* width: 300px; */
+    height: 15px;
     display: grid;
-    color: blue;
+    grid-area: span;
+    padding: 0.5em;
+    margin-bottom: 0.5em;
+    color: rgb(225, 225, 255);
+    background-color: rgb(0, 29, 54);
 }
 
 .lr_slider{
     color:blue;
+    display: subgrid;
+    /* background-color: blueviolet; */
+    /* background-color: rgb(89, 154, 211); */
 }
 
-#simulation{
+.simulation-grid{
     background-color: transparent;
-    width:fit-content;
+    /* width:fit-content; */
     padding: 0px;
     margin:0px;
+    display: grid;
+    grid-template-columns: 35em 5em 5em 15em;
+    grid-template-rows: 15em 5em;
 }
 
-
-#car_game_design{
-    color:rgb(127, 193, 255);
+.car_game_design{
+    color:rgb(152, 189, 223);
     font-family: 'Courier New', Courier, monospace;
     margin: 0px;
-    border: 10px solid rgb(145, 189, 254);
+    border-right: 10px solid rgb(145, 189, 254);
     text-align: center;
-    height: 450px;
-    width: 550px;
-    padding:10px; 
+    /* height: 5px;
+    width: 550px; */
+    padding-right:5px; 
+    /* display: grid; */
+    /* grid-template-rows: subgrid; */
+    
 }
+button.Start-Button
+{
+    
+}   
 
 table {
     font-family: arial, sans-serif;

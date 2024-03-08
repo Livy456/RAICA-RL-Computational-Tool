@@ -205,12 +205,18 @@ class Car{
             // change this to grey version of the car
             const img = new Image();
             img.onload = () =>{
-                ctx.drawImage(img, this.x, this.y, this.width, this.height);
+                ctx.drawImage(img, this.x, this.y);
             };
             img.src = "../Images/carAvatar.png";
         }
         else
         {
+            const img = new Image();
+            img.src = "../Images/carAvatar.png";
+            img.onload = () => {
+                ctx.drawImage(img, this.x, this.y);
+            };
+            
             // ctx.fillStyle = "black";    
         }
         
