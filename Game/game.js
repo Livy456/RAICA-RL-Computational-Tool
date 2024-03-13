@@ -1,20 +1,16 @@
-// import Road from Road.js;
-
+// gets the canvas element
 const canvas = document.getElementById("car_game_design");
 const context = canvas.getContext("2d");
-
 let gameState = "highway";
 const WIDTH = 550;
 const HEIGHT = 150;
-
-// MAKE SURE TO CREATE A CLASS OR AN OBJECT WITH A SERIES OF STATES AND ACTIONS
-// THAT THE CAR CAN TAKE DURING THE CAR SIMULATION
 const HIGHWAY_LINE_WIDTH = 5;
 const HIGHWAY_LANE_COUNT = 3;
 const CAR_WIDTH = 35;
 const CAR_HEIGHT = 15;
 
-// import Road from Road.js;
+// MAKE SURE TO CREATE A CLASS OR AN OBJECT WITH A SERIES OF STATES AND ACTIONS
+// THAT THE CAR CAN TAKE DURING THE CAR SIMULATION
 
 // Instantiate Objects for game
 const highway = new Road(WIDTH/2, 10, HIGHWAY_LANE_COUNT, "highway", CAR_WIDTH); // instantiates a road instance
@@ -28,17 +24,23 @@ const traffic = [
 
 // MAYBE ADD A BUTTON THAT RESETS THE GAME WHEN THE PLAYER GETS DAMAGED/COLLIDES WITH OTHER OBJECTS
 // MIGHT HAVE TO ADD A NEW FUNCTION TO CAR CALLED RESTART, WHICH RESETS THE damaged ATTRIBUTE value
-
-
+function startGame()
+{
+    let button = document.querySelector(".Start-Button");
+    button.addEventListener("onclick", function() {
+        play_game = true;
+    });
+}
+// let play_game = startGame();
 
 function animateGame()
-{
+{    
     let play_game = false;
     highway.drawHighwayRoad(context);   // draws the highway state for the game
     if(play_game)
     {
+        console.log("inside animation function!!!");
         context.clearRect(0, 0, context.canvas.width, context.canvas.height) // resets the canvas so the moving objects don't blend into one long line
-        // document.write("simulation game file, at beginning of the animategame function!!");
         
         for(let i = 0; i < traffic.length; i++)
         {
@@ -64,7 +66,6 @@ function animateGame()
         car.drawPlayer(context);    // redraws the car object on the canvas
         context.restore();
         requestAnimationFrame(animateGame); // repeatedly runs function, to make the game appear animated    
-
     }
 }
 

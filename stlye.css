@@ -133,14 +133,14 @@ label{
     
 } */
 
-section{
+/* section{
     display: grid;
     grid-template-columns: subgrid;
     grid-column: span 1 / -1;
     border-bottom-color: rgb(176, 125, 125);
     border-bottom-style: solid;
     border-bottom-width: 5px;
-}
+} */
 
 a.current{
     padding-bottom: 0.1em;
@@ -244,12 +244,13 @@ button{
     padding: 0px;
     margin:0px;
     display: grid;
-    grid-template-columns: 35em 5em 5em 15em;
-    grid-template-rows: 15em 5em;
+    grid-template: auto auto auto / 100px auto;
+    grid-template-rows: 10em 5em;
 }
 
 .car_game_design{
     color:rgb(152, 189, 223);
+    grid-row: 2;
     font-family: 'Courier New', Courier, monospace;
     margin: 0px;
     border-right: 10px solid rgb(145, 189, 254);
@@ -257,13 +258,17 @@ button{
     /* height: 5px;
     width: 550px; */
     padding-right:5px; 
+    grid-row-start: 1;
     /* display: grid; */
     /* grid-template-rows: subgrid; */
     
 }
-button.Start-Button
+
+.Start-Button
 {
-    
+    /* grid-column: 1; */
+    grid-template-columns: max-content;
+    grid-row: 1;
 }   
 
 table {

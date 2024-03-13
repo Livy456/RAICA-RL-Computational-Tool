@@ -7,45 +7,43 @@
     <link rel="stylesheet" type='text/css' href="../stlye.css">
     
     <title>RAICA Car Simulation Game</title>
-    <!-- <nav>
-        <a class="Home" href="../">Home</a>
-        <a class="Environment" href="../Game/index.html">Game</a>
-        <a class="Data" href="../Data/index.html">Data</a>
-        <a class="Settings" href="../Settings/index.html">Settings</a>
-    </nav> -->
     
 </head>   
     
 <body>
-
-    <div class="header">
-        
+    <header>
         <h1 id="game_title"> RL Car Simulation Game</h1>
-    </div>
+    </header>
+    <!-- <section class="header"> -->
+        
+        <!-- <h1 id="game_title"> RL Car Simulation Game</h1> -->
+    <!-- </section> -->
     <!-- <image class= "player" src="../Images/carAvatar.png"></image> -->
-    <div class="simulation-grid">
+    <section class="simulation-grid">
+
+        <!-- <label>Current State: </label> -->
+        <section>
+            <canvas id="car_game_design" width="550" height="550"></canvas>
+        </section>
+
+        <section>
+            <input type="button" class="Start-Button" value="Start" onclick="">
+            <!-- <button class="Start-Button">Play</button> -->
+        </section>
         
-        <canvas id="car_game_design" width="550" height="600">
-            
-            <!-- <img width="20" height="20" src="carAvatar.png"/> -->
-        </canvas>
-        <button class="Start-Button">Play</button>
-        <label id="learningRate"><b>Learning Rate</b></label>
-        <input type="range" id="lr_slider" min="1" max="100" value="50">
+                            
+        <section>
+            <label id="learningRate"><b>Learning Rate</b></label>
+            <input type="range" id="lr_slider" min="1" max="100" value="50">
+        </section>
         
+        <section>
+            <!-- <section> -->
+            <h3>Current State</h3>
+            <!-- </section> -->
+        </section>
 
-            <!-- <div id="learningRate">
-                <label><b>Learning Rate</b></label>
-                <input type="range" id="lr_slider" min="1" max="100" value="50">
-            </div> -->
-
-            <!--FIX THE GRID DISPLAY SO THE CONTAINERS DON'T LOOK WEIRD ON THE WEBSITE-->
-            <!--Future update will try to highlight one particular cell at a time
-            to help the middle schoolers to see which cell in the Q-learning 
-            process is being updated-->
-            <!-- <tr id="actions"> -->
-
-        <div id="Qtable">
+        <section id="Qtable">
             <label style="color:black">Q TABLE</label>
             
             <table style="width:500px" id="q_table">
@@ -90,9 +88,9 @@
                     <td id="3_4">0</td>
                 </tr>
             </table>    
-        </div>
+        </section>
 
-        <div id="RewardTable">
+        <section id="RewardTable">
             <table id="reward_table">
                 <label style="color:black">REWARD TABLE</label>
                 
@@ -137,7 +135,7 @@
                     <td><input id="3,4" type="text" width="2px" height="2px" value="2"></td>
                 </tr>
             </table>
-        </div>
+        </section>
 
         <script src="utils.js"></script>
         <script src="reinforcementLearning.js"></script>
@@ -148,7 +146,7 @@
         <script src="game.js"></script>
         <script src="../global.js"></script>
 
-    </div>
+    </section>
 </body>
 
 </html>
