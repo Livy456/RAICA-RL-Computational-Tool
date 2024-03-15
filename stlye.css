@@ -1,32 +1,5 @@
-body{
-    background-color: rgb(227, 252, 255);
-    color:rgb(0, 0, 0);
-    text-decoration-color: black;
-    /* overflow:hidden; */
-}
 
-h1{
-    color: black;
-    background-color: rgb(173, 187, 209);
-    border-bottom: 15px solid rgb(246, 246, 246);
-    font-size: 60px;
-    text-align: center;
-    margin:0%;
-    padding:0px;
-}
 
-.grid-container-simulation_zone{
-    display: grid;
-    grid-template-areas: 
-    'tables tables simulation simulation simulation simulation'
-    'tables tables simulation simulation simulation simulation'
-    'tables tables simulation simulation simulation simulation';
-    height:100%;
-    width:100%;
-    border-top:20px solid rgb(140, 113, 110);
-    padding-right: 10px;
-
-}
 /* #Qtable{
     background-color: azure;
     border:20px solid pink;
@@ -44,63 +17,170 @@ h1{
     background-color: black;
     display: grid;
 } */
-/* :root {
-    background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
-    color-scheme: dark;
-} */
 
-body { 
-    /* Set line height to 1.5 times the font size
-       and use the 0S's UI font as the website font */
-    font: 100%/1.5 system-ui;
-    margin-inline: auto;
-    padding-left: 2ch; 
-    padding-right: 2ch;
-    color-scheme: dark;
-    border-bottom-color: oklch(50% 10% 200 / 40%);
-}
 .home-grid{
     display: grid;
     /* grid-template-columns: repeat(auto-fill, minmax(20em, 1fr)); */
 }
-/* h1{
-    border-bottom: 5px;
-    border-bottom-color: rgb(167, 152, 133);
-    border-bottom-style: solid;
-    font-weight: bold;
-    font-size: large;
-} */
-
-/* label.color-scheme{
-    position: absolute;
-    top: 0.5em;
-    right: 0.5rem;
-    padding-left: 0.5rem;
-    font-family: inherit;
-} */
 
 nav{
     display: flex;
     padding-left: 0.5%;
     padding-right: 0px;
     margin-bottom: 1px;
-    /* --border-color: oklch(50% 10% 200 / 40%); */
     border-bottom-color: black;
 }
 
-/* .projects{
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
+a.current{
+    padding-bottom: 0.1em;
+    border-bottom-color: rgb(231, 143, 143);
+    border-bottom-width: 0.3em;
+    font-weight: bold;
+    color:rgb(175, 2, 2)
 }
 
-article{
-    display: grid;
-    grid-template-rows: subgrid;
-    grid-row: span 3;
-    padding-right: 5px;
-    padding-left: 5px;
+a:hover{
+    border-bottom-color: rgb(235, 163, 163);
+    border-bottom-width: 0.3em;
+    padding-bottom: 0.1em;
+    background-color: rgb(255, 236, 212);
+    font-weight: bold;
+}
 
-} */
+a{
+    flex: 1;
+    text-decoration: none;
+    text-align: center;
+    padding: 0.5rem;
+    border-bottom-width: 0.2em;
+    border-bottom-style: solid;
+    border-bottom-color: rgb(255, 221, 221);
+    color:rgb(181, 78, 64);
+    font-size:20px;
+    font-family: Georgia;
+}
+
+img{
+    max-width: 100%;
+}
+
+img:hover{
+    filter: opacity(75%);
+}
+
+li{
+    margin-bottom: 4px;
+    padding: 10px;
+    background-color: bisque;
+    color: black;
+}
+
+.simulation-grid{
+    display: grid;
+    grid-template-columns: 25fr 15fr 15fr;
+    grid-template-rows: auto auto 50px;
+    grid-row-gap: 10px;
+    background-color: transparent;
+    padding: 0px;
+    margin:0px;
+}
+
+#car_game_design{
+    padding-left: 0px;
+    margin-left: 0px;
+    margin-top:10px;
+    /* border-right:rgb(0, 29, 54);
+    border-width: 5px; */
+    /* color:rgb(152, 189, 223);
+    grid-row: 1 / -1;
+    grid-column: 1;
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0px;
+    border-right: 10px solid rgb(145, 189, 254);
+    text-align: center;
+    padding-right:5px;  */
+}
+
+dd{
+
+    grid-column: 1;
+    grid-row: 1 /-1;
+}
+
+dt{
+    grid-column: 2;
+}
+
+.Start-Button
+{
+    margin-top:10px;
+    height: 75px;
+    width: 200px;
+    font-size: 25px;
+    margin-bottom: 15px;
+    margin-left: 10px;
+    display: grid;
+    background-color: rgb(228, 56, 56);
+    color:azure;
+}   
+
+.Start-Button:hover{
+    background-color: rgb(205, 246, 208);
+    color: rgb(62, 12, 12);
+}
+
+#learningRate{
+    /* width: 300px; */
+    padding-top:10px;
+    margin: 10px;
+    font-size: 25px;
+    text-align: center;
+    height: 15px;
+    display: grid;
+    padding-bottom: 1em;
+    padding-left: 0.25em;
+    padding-right: 0.25em;
+    margin-bottom: 0.5em;
+    width:190px;
+    color: rgb(255, 255, 255);
+    background-color: rgb(165, 81, 81);
+}
+
+.lr_slider{
+    color:blue;
+    display: subgrid;
+    margin-left: 10px;
+    padding-left:10px;
+}
+
+label.current_state{
+    padding-left:20px;
+}
+
+h3.heading_current_state{
+    padding-left: 10px;
+    font-size: 30px;
+    /* font-style: thin; */
+    font-family: 'Trebuchet MS';
+    color: rgb(128, 30, 30);
+}
+
+body{
+    background-color: rgb(251, 251, 251);
+    color:rgb(0, 0, 0);
+    text-decoration-color: black;
+    /* overflow:hidden; */
+}
+
+h1{
+    color: rgb(91, 63, 63);
+    background-color: rgb(248, 207, 204);
+    border-bottom: 15px solid rgb(246, 246, 246);
+    font-size: 60px;
+    text-align: center;
+    margin:0%;
+    padding:0px;
+}
 
 h2{
     margin: 0px;
@@ -115,163 +195,7 @@ label{
     color:black;
 }
 
-/* .resume{
-    display: grid;
-    grid-template-columns: auto 1fr;
-}
-
-.resume h3{
-    margin-bottom:0px;
-    font-size: larger;
-    background-color: rgb(236, 164, 70);    
-}
-
-.resume li{
-    display: grid;
-    grid-template-rows: auto 1fr;
-    row-gap: 1em;
-    
-} */
-
-/* section{
-    display: grid;
-    grid-template-columns: subgrid;
-    grid-column: span 1 / -1;
-    border-bottom-color: rgb(176, 125, 125);
-    border-bottom-style: solid;
-    border-bottom-width: 5px;
-} */
-
-a.current{
-    padding-bottom: 0.1em;
-    border-bottom-color:rgb(196, 155, 155);
-    border-bottom-width: 0.3em;
-    font-weight: bold;
-}
-
-a:hover{
-    border-bottom-color: rgb(181, 101, 101);
-    border-bottom-width: 0.3em;
-    padding-bottom: 0.1em;
-    background-color: rgb(255, 236, 212);
-    font-weight: bold;
-}
-
-a{
-    flex: 1;
-    text-decoration: none;
-    text-align: center;
-    padding: 0.5rem;
-    border-bottom-width: 0.2em;
-    border-bottom-style: solid;
-    border-bottom-color: rgb(194, 194, 194);
-    color:rgb(219, 154, 75);
-}
-
-img{
-    max-width: 100%;
-    /* border-color: chocolate;
-    border-style: solid; */
-    /* border-width: 5px; */
-}
-
-img:hover{
-    filter: opacity(75%);
-}
-
-form{
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 1em;
-}
-
-li{
-    margin-bottom: 4px;
-    padding: 10px;
-    background-color: bisque;
-    color: black;
-}
-
-/* time{
-    font-style: oblique;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-}
-
-p .biography{
-    font:inherit;
-    display: block;
-}
-
-input{
-    font:inherit;
-}
-
-textarea{
-    font:inherit;
-    display: block;
-}
-
-label{
-    display: grid;
-    grid-template-columns: subgrid;
-    grid-column: 1 / -1;
-}
-button{
-    grid-column: 1 / -1;
-} */
-
-#learningRate{
-    /* width: 300px; */
-    height: 15px;
-    display: grid;
-    grid-area: span;
-    padding: 0.5em;
-    margin-bottom: 0.5em;
-    color: rgb(225, 225, 255);
-    background-color: rgb(0, 29, 54);
-}
-
-.lr_slider{
-    color:blue;
-    display: subgrid;
-    /* background-color: blueviolet; */
-    /* background-color: rgb(89, 154, 211); */
-}
-
-.simulation-grid{
-    background-color: transparent;
-    /* width:fit-content; */
-    padding: 0px;
-    margin:0px;
-    display: grid;
-    grid-template: auto auto auto / 100px auto;
-    grid-template-rows: 10em 5em;
-}
-
-.car_game_design{
-    color:rgb(152, 189, 223);
-    grid-row: 2;
-    font-family: 'Courier New', Courier, monospace;
-    margin: 0px;
-    border-right: 10px solid rgb(145, 189, 254);
-    text-align: center;
-    /* height: 5px;
-    width: 550px; */
-    padding-right:5px; 
-    grid-row-start: 1;
-    /* display: grid; */
-    /* grid-template-rows: subgrid; */
-    
-}
-
-.Start-Button
-{
-    /* grid-column: 1; */
-    grid-template-columns: max-content;
-    grid-row: 1;
-}   
-
-table {
+/* table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
@@ -291,4 +215,4 @@ table {
   
   tr:nth-child(even) {
     background-color: #c4c4c4;
-  }
+  } */

@@ -5,13 +5,33 @@ class reinforcementLearning
         this.num_states = 4;
         this.num_actions = 5;
         this.sensor = sensor;
+        this.states = ["Car Detected", "Road Border Detected", "Collision", "Nothing Detected"];
+        this.actions = ["Forward", "Backward", "Left", "Right", "Stop"];
+        this.reward_matrix = [];
+        this.qTable = [];
+        
+        // initialize all reward values to 1
+        for (let i=0; i<this.num_states; i++)
+        {
+            let rewards = [];
+            let q_values = [];
 
-        this.states = this.#getStates();                 // array of possible states for the car
-        this.actions = this.#getActions();               // array of possible actions for the car
+            for (let j=0; j<this.num_actions;j++)
+            {
+                rewards.push(1);
+                q_values.push(0);
+            }
+            this.reward_matrix.push(rewards);
+            this.qTable.push(q_values);
+        }
+        
+
+        // this.states = this.#getStates();                 // array of possible states for the car
+        // this.actions = this.#getActions();               // array of possible actions for the car
         this.learning_rate = this.#getLearningRate();    // learning rate for the q learning process
         this.gamma = 0.9;   
-        this.reward_matrix = this.#getRewards();         // 2D matrix of all state, action pairings
-        this.qTable = this.#initializeQTable();                 // initializes an all zero 2D matrix for qTable
+        // this.reward_matrix = this.#getRewards();         // 2D matrix of all state, action pairings
+        // this.qTable = this.#initializeQTable();                 // initializes an all zero 2D matrix for qTable
         
         this.policy = new Map();                    // empty mapping of optimal action for car to take given a state
         this.current_action = "Forward";            // current action for player car to take
@@ -55,72 +75,72 @@ class reinforcementLearning
         ]);        
     }
 
-    #getActions()
-    {
-        let actions = [];
+    // #getActions()
+    // {
+    //     let actions = [];
 
-        // loop through each column of table to get the actions for the game
-        for (let index = 0; index < this.num_actions; index++)
-        {
-            let action_number = index + 1
-            let id_name = "action" + action_number.toString(); // figure out if this is the accurate
-            let table = document.getElementById(id_name);
+    //     // loop through each column of table to get the actions for the game
+    //     for (let index = 0; index < this.num_actions; index++)
+    //     {
+    //         let action_number = index + 1
+    //         let id_name = "action" + action_number.toString(); // figure out if this is the accurate
+    //         let table = document.getElementById(id_name);
             
-            let data = table.innerHTML;
-            let data_element = "";
+    //         let data = table.innerHTML;
+    //         let data_element = "";
 
-            for (let i = 0; i < data.length; i++)
-            {
-                const data_value = data[i];
-                data_element = data_element + data_value;
-            }
+    //         for (let i = 0; i < data.length; i++)
+    //         {
+    //             const data_value = data[i];
+    //             data_element = data_element + data_value;
+    //         }
 
-            actions.push(data_element);
-        }
+    //         actions.push(data_element);
+    //     }
 
-        return actions;
-    }
+    //     return actions;
+    // }
 
-    #getStates()
-    {
-        let states = [];
+    // #getStates()
+    // {
+    //     let states = [];
         
-        for (let number = 0; number < this.num_states; number++)
-        {
-            let state_number = number + 1;
-            let state_name = "state" + state_number.toString();
-            let table = document.getElementById(state_name);
-            let data = table.innerHTML;
-            states.push(data);
-        }
+    //     for (let number = 0; number < this.num_states; number++)
+    //     {
+    //         let state_number = number + 1;
+    //         let state_name = "state" + state_number.toString();
+    //         let table = document.getElementById(state_name);
+    //         let data = table.innerHTML;
+    //         states.push(data);
+    //     }
 
-        return states;
-    }
+    //     return states;
+    // }
 
-    #getRewards()
-    {
-        let reward_matrix = [];
+    // #getRewards()
+    // {
+    //     let reward_matrix = [];
 
-        // table is a 4 x 5 (row x col) or (state x actions)
-        // iterate through the table to get the reward values
-        for (let row=0; row < this.num_states; row++)
-        {
-            let reward_row = [];
+    //     // table is a 4 x 5 (row x col) or (state x actions)
+    //     // iterate through the table to get the reward values
+    //     for (let row=0; row < this.num_states; row++)
+    //     {
+    //         let reward_row = [];
             
-            for (let col=0; col < this.num_actions; col++)
-            {
+    //         for (let col=0; col < this.num_actions; col++)
+    //         {
 
-                let data_cell = row.toString() + "," + col.toString();
-                let data = document.getElementById(data_cell).value;
+    //             let data_cell = row.toString() + "," + col.toString();
+    //             let data = document.getElementById(data_cell).value;
 
-                reward_row.push(data);
-            }
-            reward_matrix.push(reward_row);
+    //             reward_row.push(data);
+    //         }
+    //         reward_matrix.push(reward_row);
     
-        }
+    //     }
 
-        return reward_matrix
-    }
+    //     return reward_matrix
+    // }
 
     #getLearningRate()
     {
