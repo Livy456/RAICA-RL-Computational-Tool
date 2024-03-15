@@ -438,6 +438,35 @@ class reinforcementLearning
         }
     }
 
+    #image_url(state)
+    {
+        // assumes state is a string of a single state
+        if (state === "Nothing Detected")
+        {
+            return "player_nothing_detected.png";
+        }
+
+        if(state === "Car Detected")
+        {
+            return "player_collision.png";
+        }
+
+        if(state === "Left Road Border Detected")
+        {   
+            return "player_intersect_left_border.png";
+        }
+
+        if(state === "Right Road Border Detected")
+        {
+            return "player_intersect_right_border.png";
+        }
+
+        if(state === "Collision")
+        {
+            return "player_collision.png";
+        }
+    }
+
     Qlearning()
     {
         // setTimeout(this.#updateValues(), 10000); // updates the learning rate, reward table values and qtable values
@@ -487,8 +516,11 @@ class reinforcementLearning
         // console.log(this.actions_to_take_array);
 
         let state_label  = document.getElementById("current_state")
-        state_label.innerHTML = this.current_state;
+        let state_img = document.getElementById("current_state_img");
 
+        state_label.innerHTML = this.current_state;
+        state_img.src = "../Game/Images/" + this.#image_url("Nothing Detected");
+        
         // OLD REWARD SYSTEM
         // this.qTable[state_index][action_index] = (1 - this.learning_rate) * current_q_value +
                                 this.learning_rate * (reward + this.gamma);

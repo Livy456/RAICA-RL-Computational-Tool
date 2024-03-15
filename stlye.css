@@ -101,6 +101,57 @@ li{
     padding-right:5px;  */
 }
 
+section.subgrid{
+    display: grid;
+    grid-template-columns: 135px 50px;
+    grid-template-rows: 50px 50px 50px 50px 50px;
+    margin: 0px;
+    padding: 0px;
+    /* background-color: rgb(255, 146, 127); */
+    
+}
+
+#action1{
+    grid-column: 1;
+    grid-row: 1;
+    font-family: Georgia;
+    font-style: bold;
+    font-size: 20px;
+    /* background-color: antiquewhite; */
+}
+
+#action2{
+    grid-column: 1;
+    grid-row: 2;
+    font-family: Georgia;
+    font-style: bold;
+    font-size: 20px;
+}
+
+#action3{
+    grid-column: 1;
+    grid-row: 3;
+    font-family: Georgia;
+    font-style: bold;
+    font-size: 20px;
+}
+
+#action4{
+    grid-column: 1;
+    grid-row: 4;
+    font-family: Georgia;
+    font-style: bold;
+    font-size: 20px;
+}
+
+#action5{
+    grid-column: 1;
+    grid-row: 5;
+    font-family: Georgia;
+    font-style: bold;
+    font-size: 20px;
+}
+
 dd{
 
     grid-column: 1;
