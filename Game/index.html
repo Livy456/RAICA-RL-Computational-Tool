@@ -20,7 +20,7 @@
         <dd>
             <canvas id="car_game_design" width="550" height="550"></canvas>
         </dd>
-        <dt>
+        <dt class="column2">
             <button id="Start-Button">Play</button>
             <!-- <input class="Start-Button" type="button" value="Play"> -->
 
@@ -30,27 +30,32 @@
             <label id="current_state">Nothing Detected</label>
             
         </dt>
-        <!-- <script>
-            let button = document.querySelector(".Start-Button");
-            console.log(button);
 
-            button.addEventListener("click", function() {
-                let playGame = true;
-
-                if (button.value === "Start")
-                {
-                    button.value = "Pause";
-                }
-
-                else if(button.value === "Pause")
-                {
-                    button.value = "Start";
-                }
-            });
-        </script> -->
+        <dl class="subgrid">
+            <dt class="column1">
+                <img></img>
         
-                                    
-      
+            </dt>
+            <dd>Value 1</dd>
+        </dl>
+        
+                   
+        <script src="utils.js"></script>
+        <script src="reinforcementLearning.js"></script>
+        <script src="../Game/sensor.js"></script>
+        <script src="controls.js"></script>
+        <script src="road.js"></script>
+        <script src="car.js"></script>
+        <script src="game.js"></script>
+        <script src="../global.js"></script>
+
+    </dl>
+    
+</body>
+
+</html>
+
+
 
         <!-- <section id="Qtable">
             <label style="color:black">Q TABLE</label>
@@ -145,17 +150,3 @@
                 </tr>
             </table>
         </section> -->
-
-        <script src="utils.js"></script>
-        <script src="reinforcementLearning.js"></script>
-        <script src="../Game/sensor.js"></script>
-        <script src="controls.js"></script>
-        <script src="road.js"></script>
-        <script src="car.js"></script>
-        <script src="game.js"></script>
-        <script src="../global.js"></script>
-
-    </dl>
-</body>
-
-</html>

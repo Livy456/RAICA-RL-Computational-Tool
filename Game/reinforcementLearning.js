@@ -18,8 +18,8 @@ class reinforcementLearning
 
             for (let j=0; j<this.num_actions;j++)
             {
-                rewards.push(1);
-                q_values.push(0);
+                rewards.push(Math.random() * this.num_states);
+                q_values.push(Math.random() * this.num_states);
             }
             this.reward_matrix.push(rewards);
             this.qTable.push(q_values);
@@ -451,7 +451,7 @@ class reinforcementLearning
         this.current_action = this.#chooseAction(new_state); // Chooses a random action for new state
         const action_index = this.action_index_mapping.get(this.current_action);
 
-        console.log(this.current_action);
+        // console.log(this.current_action);
 
         // resets all the actions
         this.actions_to_take.forEach((action, boolean_value) => {
@@ -483,8 +483,8 @@ class reinforcementLearning
         const new_action_index = this.action_index_mapping.get(optimal_action)
         this.actions_to_take_array[new_action_index] = true;
 
-        // console.log(this.actions_to_take);
-        console.log(this.actions_to_take_array);
+        console.log(this.actions_to_take);
+        // console.log(this.actions_to_take_array);
 
         let state_label  = document.getElementById("current_state")
         state_label.innerHTML = this.current_state;
@@ -498,12 +498,12 @@ class reinforcementLearning
                                     this.learning_rate * (new_reward + this.gamma);
        
     }
-    timeStep()
-    {
-        document.write("Create a function that slows down the update portion of the q learning");
-        //
-        // console.time() // starts the timer
-        // console.timeEnd() // elasped time
-        // allow for 1/2 second of time to pass before each update
-    }
+    // timeStep()
+    // {
+    //     // document.write("Create a function that slows down the update portion of the q learning");
+    //     //
+    //     // console.time() // starts the timer
+    //     // console.timeEnd() // elasped time
+    //     // allow for 1/2 second of time to pass before each update
+    // }
 }

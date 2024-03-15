@@ -3,11 +3,8 @@ class Sensor
     constructor(car)
     {
         this.car = car; // car object
-        // this.num_sensors = 5; 
-        // this.num_sensors = 3
         this.num_sensors = 31; 
         this.sensor_length = 50;
-        // this.sensor_arc = Math.PI/2; // 90 degree angle between sensors
         this.sensor_arc = Math.PI*2; // 360 degree 
         this.sensor_readings = [];
         this.sensors = [];
@@ -24,7 +21,6 @@ class Sensor
         // will check if the sensor segment has intersected another object
         for(let i=0; i < this.num_sensors; i++)
         {
-            // document.write("sensor readings!!");
             const sensor_reading = this.get_sensor_readings(this.sensors[i], road_x_boundaries, traffic);
             this.sensor_readings.push(sensor_reading);
         }
@@ -55,30 +51,6 @@ class Sensor
     get_sensor_readings(sensor, road_boundaries, traffic)
     {
         let all_intersections = [];
-
-        // for(let i=0; i < road_boundaries.length; i++)
-        // {
-        //     // if no intersections this function will return none
-        //     // if there is an intersection then getIntersection returns, object -> x, y, offset
-        //     // sensor[0] => start object
-        //     // sensor[1] => end object
-        //     // road_boundaries[i][0] => left side of road object
-        //     // road_boundaries[i][1] => right side of road object
-
-        
-        //     // const intersection = carIntersectRoad(sensor, road_boundaries[i][0], road_boundaries[i][1]);
-        //     const intersection = getIntersection(sensor[0], sensor[1], road_boundaries[i][0], road_boundaries[i][1]);
-        //     // const intersection = objectIntersection(sensor, road_boundaries[i])
-            
-    
-        //     // checks for any intersections
-        //     if (intersection)
-        //     {
-        //         // document.write("car sensor class, get sensor reading method, intersection detected!!!");
-        //         // intersection is being detected!!!
-        //         all_intersections.push(intersection);
-        //     }
-        // }
         
         // checks for sensor intersection with the left or right road boundary
         const intersection = playerCarIntersectRoad(sensor, road_boundaries[0], road_boundaries[1], this.car);
@@ -106,19 +78,6 @@ class Sensor
                 }
             }
         }
-
-        // WILL HAVE TO DEFINE MY OWN FUNCTION FOR DETECTING WHETHER OR NOT A PLAYER CAR COLLIDES
-        // WITH THE TRAFFIC CAR
-        // for (let i=0; i< traffic.length;i++)
-        // {
-        //     const collision = playerCarIntersect(sensor, traffic[0], traffic[1], this.car);
-            
-        //     if (intersection)
-        //     {
-        //         // intersection is being detected!!!
-        //         all_intersections.push(intersection);
-        //     }
-        // }
 
         // checks if sensors are intersecting no other objects
         if(all_intersections.length === 0)

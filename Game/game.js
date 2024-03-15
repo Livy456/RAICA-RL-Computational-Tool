@@ -25,26 +25,27 @@ const traffic = [
 let button = document.getElementById("Start-Button");
 let play_game = false;
 console.log(button);
-// button.value = "Play";
+button.value = "Play";
 
 function startPlayingGame(btn){
-    console.log("Inner html of button", btn.innerHTML);
-    if (btn.innerHTML === "Play")
+    console.log("Inner html of button", btn.textContent);
+
+    if (btn.textContent === "Play")
     {
         play_game = true;
-        btn.innerHTML = "Pause";
+        btn.textContent = "Pause";
+        console.log("First conditional, want to play game!!");
     }
     
-    else if(btn.innerHTML === "Pause")
+    else if(btn.textContent === "Pause")
     {
         play_game = false;
-        btn.innerHTML="Play";
+        btn.textContent = "Play";
+        console.log("Second conditional, want to pause game!!");
     }
     console.log("Inside onclick function!!");
     
 };
-
-
 
 // button.innerHTML = button.value;
 // console.log(button);
@@ -52,15 +53,22 @@ function startPlayingGame(btn){
 // console.log(play_game);
 // car.is_damaged = false;
 
-
 button.onclick = startPlayingGame(button);
+
+// button.addEventListener("click", startPlayingGame(button));
+// let play_game = false;    
+
 
 function animateGame()
 {    
-    
+    // let button = document.getElementById("Start-Button");
     highway.drawHighwayRoad(context);   // draws the highway state for the game
-    
-    
+    // button.onclick = startPlayingGame(button);
+    // its not updating the button context
+
+
+    // button.addEventListener("click", startPlayingGame(button));
+    console.log("on click updated play_game ", play_game);
     if(play_game)
     {
         console.log("inside animation function!!!");
@@ -91,6 +99,8 @@ function animateGame()
         context.restore();
         requestAnimationFrame(animateGame); // repeatedly runs function, to make the game appear animated    
     }
+
+    // button.removeEventListener("onclick", startPlayingGame(button));
 }
 
 // makes a one second delay between function calls to slow down animate
