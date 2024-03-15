@@ -7,13 +7,11 @@ class Car{
         this.height = height; // height of car
         
         this.player = player; // boolean value indicating if car is player or not
-        this.damaged = false;   // confirms whether the car is damaged or not        
+        this.damaged = false;   // confirms whether the car is damaged or not 
+        console.log(this.damaged);       
 
         this.car_sensors = new Sensor(this); // creates sensor object using car instance
         this.learning = new reinforcementLearning(this.car_sensors); 
-
-        // NO LONGER NEED THE CONTROLS CLASS
-        // this.controls = new Controls(player); // no controls for non player cars
 
         this.car_points = [
                             {x: this.x - this.width/2,
@@ -67,13 +65,13 @@ class Car{
         // checks if car has hit any of the road borders
         for(let i = 0; i < road_boundaries.length; i++)
         {
-            // car_points is list of objects corresponding to x, y coordinates of following car points
+            // car_points is list of objects corresponding to 
+            // x, y coordinates of following car points
             // top left, top right, bottom left, bottom right
             if (objectIntersection(this.car_points, road_boundaries[i]))
             {
                 return true;
             }
-            // continue;
 
         }
 
@@ -97,27 +95,15 @@ class Car{
     // movePosition(road_boundaries, top, bottom)
     #movePosition()
     {
-        // document.write("I made it in the move position function in simulation car!!!");
-        // console.time(); // starts the time 
-        // setTimeout(this.learning.Qlearning(), 2000);
+        setTimeout(this.learning.Qlearning(), 5000);
         // console.timeEnd();
-        this.learning.Qlearning();
+        // this.learning.Qlearning();
         
         // default movement for a non player character is forward
         if (! this.player)
         {
             this.y-=0.5;
         }
-
-        // moves the car object's x and y positions
-        // bound the carPlayer to the grey road
-        // if (this.controls.forward && car.y > 0)
-        // if (this.controls.forward && car.y > top)
-        
-        
-    
-        // if (this.controls.forward)
-        // if(this.player && (this.learning.actions_to_take.get("Forward")))
 
         // 0 index corresponds to forward action
         if(this.player && (this.learning.actions_to_take_array[0]))
@@ -128,42 +114,22 @@ class Car{
 
 
         // bound the carPlayer to the grey road
-        // if (this.controls.right && car.x +car.width < (3*WIDTH/4))
-        // if ( this.player && (this.learning.actions_to_take.get("Right")))
         if(this.player && (this.learning.actions_to_take_array[3]))
-        // if (this.controls.right)
         {
             this.x+=2;
         }
 
-
-
-
         // bound the carPlayer to the grey road
-        // if (this.controls.backward && car.y + car.height <= bottom)
-        // if (this.player && (this.learning.actions_to_take.get("Backward")))
         if(this.player && (this.learning.actions_to_take_array[1]))
-        // if (this.controls.backward)
         {
             this.y+=0.7;
         }
 
-
-
-
         // bound the carPlayer to the grey road
-        //if (this.controls.left && car.x > (WIDTH/4) + HIGHWAY_LINE_WIDTH)
-        //if (this.controls.left && car.x > (WIDTH/4))
-        // if (this.player && (this.learning.actions_to_take.get("Left")))
         if(this.player && (this.learning.actions_to_take_array[2]))
-        // if (this.controls.left)
         {
             this.x-=2;
         }
-
-        // this.learning.actions_to_take.forEach((action, boolean_value) => {
-        //     this.learning.actions_to_take.set(action, false);
-        // });
     }
 
     updateCar(road_boundaries, traffic)
@@ -190,7 +156,6 @@ class Car{
 
         if (this.player)
         {
-            // document.write("before updating car sensor in car file, update car method");
             this.car_sensors.updateSensor(road_boundaries, traffic);
             console.log(this.car_sensors);
         }
@@ -201,34 +166,37 @@ class Car{
         
         if (this.damaged)
         {
-            // ctx.fillStyle = "grey";
+            ctx.fillStyle = "grey";
+
+
             // change this to grey version of the car
-            const img = new Image();
-            img.onload = () =>{
-                ctx.drawImage(img, this.x, this.y);
-            };
-            img.src = "../Images/carAvatar.png";
+
+            // const img = new Image();
+            // img.onload = () =>{
+            //     ctx.drawImage(img, this.x, this.y);
+            // };
+            // img.src = "../Images/carAvatar.png";
         }
         else
         {
-            const img = new Image();
-            img.src = "../Images/carAvatar.png";
-            img.onload = () => {
-                ctx.drawImage(img, this.x, this.y);
-            };
+            // const img = new Image();
+            // img.src = "../Images/carAvatar.png";
+            // img.onload = () => {
+            //     ctx.drawImage(img, this.x, this.y);
+            // };
             
-            // ctx.fillStyle = "black";    
+            ctx.fillStyle = "black";    
         }
         
         // // ctx.fillRect(this.x, this.y, this.width, this.height);
-        // ctx.beginPath();
-        // ctx.moveTo(this.car_points[0].x, this.car_points[0].y);
+        ctx.beginPath();
+        ctx.moveTo(this.car_points[0].x, this.car_points[0].y);
 
-        // for (let i = 1; i < this.car_points.length; i++)
-        // {
-        //     ctx.lineTo(this.car_points[i].x, this.car_points[i].y);
-        // }
-        // ctx.fill();
+        for (let i = 1; i < this.car_points.length; i++)
+        {
+            ctx.lineTo(this.car_points[i].x, this.car_points[i].y);
+        }
+        ctx.fill();
     
         this.car_sensors.drawSensor(ctx); // draws on the sensors
     }

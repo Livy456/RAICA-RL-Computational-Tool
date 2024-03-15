@@ -6,11 +6,8 @@ const WIDTH = 550;
 const HEIGHT = 150;
 const HIGHWAY_LINE_WIDTH = 5;
 const HIGHWAY_LANE_COUNT = 3;
-const CAR_WIDTH = 35;
-const CAR_HEIGHT = 15;
-
-// MAKE SURE TO CREATE A CLASS OR AN OBJECT WITH A SERIES OF STATES AND ACTIONS
-// THAT THE CAR CAN TAKE DURING THE CAR SIMULATION
+const CAR_WIDTH = 30;
+const CAR_HEIGHT = 35;
 
 // Instantiate Objects for game
 const highway = new Road(WIDTH/2, 10, HIGHWAY_LANE_COUNT, "highway", CAR_WIDTH); // instantiates a road instance
@@ -24,19 +21,46 @@ const traffic = [
 
 // MAYBE ADD A BUTTON THAT RESETS THE GAME WHEN THE PLAYER GETS DAMAGED/COLLIDES WITH OTHER OBJECTS
 // MIGHT HAVE TO ADD A NEW FUNCTION TO CAR CALLED RESTART, WHICH RESETS THE damaged ATTRIBUTE value
-function startGame()
-{
-    let button = document.querySelector(".Start-Button");
-    button.addEventListener("onclick", function() {
+
+let button = document.getElementById("Start-Button");
+let play_game = false;
+console.log(button);
+// button.value = "Play";
+
+function startPlayingGame(btn){
+    console.log("Inner html of button", btn.innerHTML);
+    if (btn.innerHTML === "Play")
+    {
         play_game = true;
-    });
-}
-// let play_game = startGame();
+        btn.innerHTML = "Pause";
+    }
+    
+    else if(btn.innerHTML === "Pause")
+    {
+        play_game = false;
+        btn.innerHTML="Play";
+    }
+    console.log("Inside onclick function!!");
+    
+};
+
+
+
+// button.innerHTML = button.value;
+// console.log(button);
+// console.log(button.value);
+// console.log(play_game);
+// car.is_damaged = false;
+
+
+button.onclick = startPlayingGame(button);
 
 function animateGame()
 {    
-    let play_game = false;
+    
     highway.drawHighwayRoad(context);   // draws the highway state for the game
+    
+    
     if(play_game)
     {
         console.log("inside animation function!!!");
@@ -69,4 +93,5 @@ function animateGame()
     }
 }
 
-animateGame();
+// makes a one second delay between function calls to slow down animate
+setTimeout(animateGame(), 5000);

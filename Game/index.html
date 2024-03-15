@@ -11,42 +11,43 @@
 </head>   
     
 <body>
-    <header>
-        <!-- <h1 id="game_title"> RL Car Simulation Game</h1> -->
-    </header>
-    <!-- <section class="header"> -->
-        
-        <!-- <h1 id="game_title"> RL Car Simulation Game</h1> -->
-    <!-- </section> -->
+    <!-- <header>
+        <h1 id="game_title"> RL Car Simulation Game</h1>
+    </header> -->
+
     <!-- <image class= "player" src="../Images/carAvatar.png"></image> -->
     <dl class="simulation-grid">
-
-        <!-- <label>Current State: </label> -->
-        <!-- <section class="grid-column1"> -->
-        
         <dd>
             <canvas id="car_game_design" width="550" height="550"></canvas>
         </dd>
         <dt>
-            <input class="Start-Button" type="button" value="Start" onclick="">
+            <button id="Start-Button">Play</button>
+            <!-- <input class="Start-Button" type="button" value="Play"> -->
+
             <label id="learningRate"><b>Learning Rate</b></label>
             <input type="range" id="lr_slider" min="1" max="100" value="50">
             <h3 class="heading_current_state">Current State: </h3> 
-            <label class="current_state">Nothing Detected</label>
+            <label id="current_state">Nothing Detected</label>
             
         </dt>
-        <script>
-            let button = document.querySelector("input");
+        <!-- <script>
+            let button = document.querySelector(".Start-Button");
             console.log(button);
 
-            button.addEventListener("onclick", function (event){
+            button.addEventListener("click", function() {
+                let playGame = true;
 
-                
-                
-            document.documentElement.style.setProperty("color-scheme", event.target.value);
-            localStorage.colorScheme = event.target.value;
+                if (button.value === "Start")
+                {
+                    button.value = "Pause";
+                }
+
+                else if(button.value === "Pause")
+                {
+                    button.value = "Start";
+                }
             });
-        </script>
+        </script> -->
         
                                     
       

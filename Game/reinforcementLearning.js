@@ -440,40 +440,8 @@ class reinforcementLearning
 
     Qlearning()
     {
-        // Areas to fix:
-            //(1)
-            // Allow the car to be able to sense multiple objects and be in multiple states
-            // have more rows to account for multiple combinations of states
-            // return a combination of multiple states
-            // bigger q table
-            // would require a bigger reward table
-                // Important for students to learn that when there are a lot of states then
-                // RL is beneficial; 
-            // reward function that is based on a CHANGE in state
-                // how much to reward when you see a car in front and when you do not see a car in front
-                // change the front end
-                // maybe a drop-down menu to indicate different states
-                // also give a reward for staying at a given state
-                // use conditional statements to replicate reward function
-                // show a diagram, (maybe like a markov model, need to account  
-                                //  for all possible state combinations)
-                    // previous state to next state
-
-            // (2)
-            // find a balance between the random and optimal action to take
-            // generate a random number each time for each possible action
-            // and then multiple that random number by the q value,
-            // combines choosing random action and optimal action
-
-            // (3)
-            // initialize the q table to random values between (0,1)
-
-            // (4) - if above isn't working then try this approach
-            // q table values aren't changing- normalize the values before 
-            // computing the q table values, 
-
         // setTimeout(this.#updateValues(), 10000); // updates the learning rate, reward table values and qtable values
-        this.#updateValues();
+        // this.#updateValues();
         const prevState = this.current_state;
 
         const new_state = this.#updateState();
@@ -518,13 +486,16 @@ class reinforcementLearning
         // console.log(this.actions_to_take);
         console.log(this.actions_to_take_array);
 
+        let state_label  = document.getElementById("current_state")
+        state_label.innerHTML = this.current_state;
+
         // OLD REWARD SYSTEM
-        this.qTable[state_index][action_index] = (1 - this.learning_rate) * current_q_value +
+        // this.qTable[state_index][action_index] = (1 - this.learning_rate) * current_q_value +
                                 this.learning_rate * (reward + this.gamma);
 
         // NEW REWARD SYSTEM
-        // this.qTable[state_index][action_index] = (1 - this.learning_rate) * current_q_value +
-        //                             this.learning_rate * (new_reward + this.gamma);
+        this.qTable[state_index][action_index] = (1 - this.learning_rate) * current_q_value +
+                                    this.learning_rate * (new_reward + this.gamma);
        
     }
     timeStep()
@@ -535,16 +506,4 @@ class reinforcementLearning
         // console.timeEnd() // elasped time
         // allow for 1/2 second of time to pass before each update
     }
-
-    // runs q learning algorithm until 
-    // the qtable converges to a specific value
-    // NEED TO FIGURE OUT A WAY TO DEFINE QTABLE VALUES CONVERGING TO A SPECIFIC VALUE
-    // FOR NOW NEED TO CHECK IF THE OPTIMAL Q TABLE HAS THE SAME NUMBER OF STATES
-    // SINCE YOU WANT TO FIND THE POLICY -> FINDING OPTIMAL ACTION TO TAKE THAT WILL MAX REWARD AT GIVEN STATE
-    // while ((this.policy.size < this.states.length) || (this.current_state == "Collision"))
-
-    // Later add in a function that makes a txt file with
-    // previous run throughs of the the reinforcement learning
-    // check if text is already saved to file (make sure to not accidentally get rid of it)
-    //
 }

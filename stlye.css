@@ -34,7 +34,7 @@ nav{
 a.current{
     padding-bottom: 0.1em;
     border-bottom-color: rgb(231, 143, 143);
-    border-bottom-width: 0.3em;
+    border-bottom-width: 0.4em;
     font-weight: bold;
     color:rgb(175, 2, 2)
 }
@@ -111,7 +111,7 @@ dt{
     grid-column: 2;
 }
 
-.Start-Button
+#Start-Button
 {
     margin-top:10px;
     height: 75px;
@@ -119,14 +119,15 @@ dt{
     font-size: 25px;
     margin-bottom: 15px;
     margin-left: 10px;
-    display: grid;
+    display: center;
     background-color: rgb(228, 56, 56);
     color:azure;
 }   
 
-.Start-Button:hover{
-    background-color: rgb(205, 246, 208);
+#Start-Button:hover{
+    background-color: rgb(255, 236, 212);
     color: rgb(62, 12, 12);
+    font-style: bold;
 }
 
 #learningRate{
@@ -153,7 +154,7 @@ dt{
     padding-left:10px;
 }
 
-label.current_state{
+#current_state{
     padding-left:20px;
 }
 
