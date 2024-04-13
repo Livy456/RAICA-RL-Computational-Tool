@@ -1,3 +1,11 @@
+const Direction = {
+    Forward: 0,
+    Backward: 1,
+    Left: 2,
+    Right: 3
+}
+
+
 class Car{
     constructor(x, y, width, height, player)
     {
@@ -8,10 +16,10 @@ class Car{
         
         this.player = player; // boolean value indicating if car is player or not
         this.damaged = false;   // confirms whether the car is damaged or not 
-        console.log(this.damaged);       
+        // console.log(this.damaged);       
 
         this.car_sensors = new Sensor(this); // creates sensor object using car instance
-        this.learning = new reinforcementLearning(this.car_sensors); 
+        this.learning = new reinforcementLearning(this, this.car_sensors); 
 
         this.car_points = [
                             {x: this.x - this.width/2,
@@ -62,6 +70,24 @@ class Car{
 
     #isDamaged(road_boundaries, traffic)
     {
+        
+        // DEBUGGING, DEFAULT to no damage
+        // return false;
+
+
+        // BUG: issue with the code is that
+        // the player car is starting to close to
+        // the traffic car so the player car
+        // already starts with collision to traffic car
+        // need to fix the intersection of player car with
+        // another object
+
+        // Another fix is have the car start lower on the screen
+
+        // ADD in a reset button
+        
+
+        
         // checks if car has hit any of the road borders
         for(let i = 0; i < road_boundaries.length; i++)
         {
@@ -72,7 +98,6 @@ class Car{
             {
                 return true;
             }
-
         }
 
         // checks if the player car collided with traffic car
@@ -85,11 +110,13 @@ class Car{
             // }
             if (objectIntersection(this.car_points, traffic[i].car_points))
             {
+                console.log("car class, is damaged function, the car detected me!!!");
                 return true;
             }
         }
-        return false;
 
+        // debugger; // acts as a breakpoint
+        return false;
     }
 
     // movePosition(road_boundaries, top, bottom)
@@ -105,31 +132,45 @@ class Car{
             this.y-=0.5;
         }
 
+        // make a enum, constant object to help with making index correspond to direction
+
+
         // 0 index corresponds to forward action
-        if(this.player && (this.learning.actions_to_take_array[0]))
+        if(this.player && (this.learning.actions_to_take_array[Direction.Forward]))
         {
             this.y -= 0.7
+            console.log("Moving the car forward");
         
         }
 
+        // left direction
+        else if(this.player && (this.learning.actions_to_take_array[Direction.Backward]))
+        {
+            this.y+=0.7
+            console.log("Moving the car backward");
+        }
 
         // bound the carPlayer to the grey road
-        if(this.player && (this.learning.actions_to_take_array[3]))
+        // right direction
+        if(this.player && (this.learning.actions_to_take_array[Direction.Right]))
         {
             this.x+=2;
+            console.log("Moving the car right");
         }
 
         // bound the carPlayer to the grey road
-        if(this.player && (this.learning.actions_to_take_array[1]))
-        {
-            this.y+=0.7;
-        }
-
-        // bound the carPlayer to the grey road
-        if(this.player && (this.learning.actions_to_take_array[2]))
+        // left direction
+        else if(this.player && (this.learning.actions_to_take_array[Direction.Left]))
         {
             this.x-=2;
+            console.log("Moving the car left");
         }
+
+
+
+
+        // Right the car can either forward left, forward right, backward right, backward left,
+        // and need to relook at the algorithm
     }
 
     updateCar(road_boundaries, traffic)
@@ -142,7 +183,7 @@ class Car{
         // WITH ANOTHER CAR OR THE ROAD IT WILL RESET AT THE MIDDLE OF THE SIMULATION ENVIRONMENT
         // OR MAKE ADD IN A BUTTON TO THE CANVAS WHENEVER this.damaged == true
 
-        if(!this.damaged)
+        if((!this.damaged) || (!this.player))
         {
             this.#movePosition();
             this.car_points = this.#createPoints();

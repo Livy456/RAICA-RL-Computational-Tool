@@ -9,7 +9,14 @@
     <title>RAICA Car Simulation Game</title>
     
 </head>   
-    
+
+
+<style>
+#lr_slider{
+
+}
+
+</style>
 <body>
     <!-- <header>
         <h1 id="game_title"> RL Car Simulation Game</h1>
@@ -17,15 +24,18 @@
 
     <!-- <image class= "player" src="../Images/carAvatar.png"></image> -->
     <dl class="simulation-grid">
-        <dd>
+        <dd class="game_canvas">
             <canvas id="car_game_design" width="550" height="550"></canvas>
         </dd>
-        <dt class="column2">
-            <button id="Start-Button">Play</button>
-            <!-- <input class="Start-Button" type="button" value="Play"> -->
-
-            <label id="learningRate"><b>Learning Rate</b></label>
-            <input type="range" id="lr_slider" min="1" max="100" value="50">
+        <dt class="game_grid_column2">
+            <input type="button" value="Play" id="Start-Button" onclick="startPlayingGame()">
+            
+            <dl class="learning_rate_container">
+                <label id="learningRate"><b>Learning Rate</b></label>
+                <input type="range" id="lr_slider" min="1" max="100" value="50">
+                <label>Learning Rate: <p id="learning_rate_value">0.5</p></label>
+            </dl>
+            
             <h3 class="heading_current_state">Current State: </h3> 
             <label id="current_state">Nothing Detected</label>
             

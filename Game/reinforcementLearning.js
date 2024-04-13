@@ -1,9 +1,10 @@
 class reinforcementLearning
 {
-    constructor(sensor)
+    constructor(car, sensor)
     {
         this.num_states = 4;
         this.num_actions = 5;
+        this.car = car;
         this.sensor = sensor;
         this.states = ["Car Detected", "Road Border Detected", "Collision", "Nothing Detected"];
         this.actions = ["Forward", "Backward", "Left", "Right", "Stop"];
@@ -18,8 +19,9 @@ class reinforcementLearning
 
             for (let j=0; j<this.num_actions;j++)
             {
-                rewards.push(Math.random() * this.num_states);
-                q_values.push(Math.random() * this.num_states);
+                // rewards.push(Math.random() * this.num_states);
+                // q_values.push(Math.random() * this.num_states);
+                rewards.push(0);
             }
             this.reward_matrix.push(rewards);
             this.qTable.push(q_values);
@@ -158,20 +160,20 @@ class reinforcementLearning
         this.learning_rate = slider.value / 100;
 
         // update q table values and retrieves any new reward values from reward table
-        for (let row=0; row < this.num_states; row++)
-        {
-            for (let col=0; col < this.num_actions; col++)
-            {
-                let data_cell = row.toString() + "_" + col.toString();
-                let reward_cell = row.toString() + "," + col.toString();
+        // for (let row=0; row < this.num_states; row++)
+        // {
+        //     for (let col=0; col < this.num_actions; col++)
+        //     {
+        //         let data_cell = row.toString() + "_" + col.toString();
+        //         let reward_cell = row.toString() + "," + col.toString();
 
-                // updating q table value
-                document.getElementById(data_cell).innerHTML = Math.floor(this.qTable[row][col])
+        //         // updating q table value
+        //         document.getElementById(data_cell).innerHTML = Math.floor(this.qTable[row][col])
 
-                // retrieving new reward table value
-                this.reward_matrix[row][col] = document.getElementById(reward_cell).value;
-            }
-        }
+        //         // retrieving new reward table value
+        //         this.reward_matrix[row][col] = document.getElementById(reward_cell).value;
+        //     }
+        // }
 
     }
 
@@ -242,6 +244,13 @@ class reinforcementLearning
                 {
                     state = "Object Intersection Behind";
                     this.current_state = "Car Detected";
+                }
+
+                if (this.car.damaged)
+                {
+                    state = "Collision";
+                    this.current_state = "Collision";
+                    console.log("I am detecting a collision!!!");
                 }
 
                 break;
@@ -448,7 +457,7 @@ class reinforcementLearning
 
         if(state === "Car Detected")
         {
-            return "player_collision.png";
+            return "car_detected.png";
         }
 
         if(state === "Left Road Border Detected")
@@ -469,18 +478,18 @@ class reinforcementLearning
 
     Qlearning()
     {
-        // setTimeout(this.#updateValues(), 10000); // updates the learning rate, reward table values and qtable values
-        // this.#updateValues();
+        this.#updateValues();
+        let learning_rate = document.getElementById("lr_slider");
+        let lr = learning_rate.value / 100;
+        let lr_label = document.getElementById("learning_rate_value");
+        lr_label.innerHTML = lr;
         const prevState = this.current_state;
 
         const new_state = this.#updateState();
         const state_index = this.state_index_mapping.get(this.current_state);
 
-        
         this.current_action = this.#chooseAction(new_state); // Chooses a random action for new state
         const action_index = this.action_index_mapping.get(this.current_action);
-
-        // console.log(this.current_action);
 
         // resets all the actions
         this.actions_to_take.forEach((action, boolean_value) => {
@@ -519,7 +528,7 @@ class reinforcementLearning
         let state_img = document.getElementById("current_state_img");
 
         state_label.innerHTML = this.current_state;
-        state_img.src = "../Game/Images/" + this.#image_url("Nothing Detected");
+        state_img.src = "../Game/Images/" + this.#image_url(this.current_state);
         
         // OLD REWARD SYSTEM
         // this.qTable[state_index][action_index] = (1 - this.learning_rate) * current_q_value +
