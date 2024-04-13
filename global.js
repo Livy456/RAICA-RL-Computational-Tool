@@ -24,7 +24,7 @@ for(let p of pages)
    // adjusts the url if we are not on the home page
    if (!AT_HOME_PAGE && !url.startsWith("http"))
    {
-        url = "../" + url;
+        url = "../" + url + "index.html";
    }
 
    a.href = url;
