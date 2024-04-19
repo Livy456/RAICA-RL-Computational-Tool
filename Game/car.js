@@ -5,7 +5,6 @@ const Direction = {
     Right: 3
 }
 
-
 class Car{
     constructor(x, y, width, height, player)
     {
@@ -16,8 +15,6 @@ class Car{
         
         this.player = player; // boolean value indicating if car is player or not
         this.damaged = false;   // confirms whether the car is damaged or not 
-        // console.log(this.damaged);       
-
         this.car_sensors = new Sensor(this); // creates sensor object using car instance
         this.learning = new reinforcementLearning(this, this.car_sensors); 
 
@@ -71,23 +68,8 @@ class Car{
     #isDamaged(road_boundaries, traffic)
     {
         
-        // DEBUGGING, DEFAULT to no damage
-        // return false;
+        // BUG: need to fix the intersection of player car with another object        
 
-
-        // BUG: issue with the code is that
-        // the player car is starting to close to
-        // the traffic car so the player car
-        // already starts with collision to traffic car
-        // need to fix the intersection of player car with
-        // another object
-
-        // Another fix is have the car start lower on the screen
-
-        // ADD in a reset button
-        
-
-        
         // checks if car has hit any of the road borders
         for(let i = 0; i < road_boundaries.length; i++)
         {
@@ -103,14 +85,16 @@ class Car{
         // checks if the player car collided with traffic car
         for (let i=0; i < traffic.length; i++)
         {
+            // DOESN'T WORK, NO TRAFFIC CAR 
             // checks if the player car collides with any of the trafic cars
             // if(trafficIntersection(this.car_points, traffic[i].car_points, this))
             // {
             //     return true;
             // }
+
             if (objectIntersection(this.car_points, traffic[i].car_points))
             {
-                console.log("car class, is damaged function, the car detected me!!!");
+                // console.log("car class, is damaged function, the car detected me!!!");
                 return true;
             }
         }
@@ -119,12 +103,9 @@ class Car{
         return false;
     }
 
-    // movePosition(road_boundaries, top, bottom)
     #movePosition()
     {
         setTimeout(this.learning.Qlearning(), 5000);
-        // console.timeEnd();
-        // this.learning.Qlearning();
         
         // default movement for a non player character is forward
         if (! this.player)
@@ -132,73 +113,45 @@ class Car{
             this.y-=0.5;
         }
 
-        // make a enum, constant object to help with making index correspond to direction
-
-
-        // 0 index corresponds to forward action
+        // moves player car forward
         if(this.player && (this.learning.actions_to_take_array[Direction.Forward]))
         {
             this.y -= 0.7
-            console.log("Moving the car forward");
-        
         }
 
-        // left direction
+        // moves player backward
         else if(this.player && (this.learning.actions_to_take_array[Direction.Backward]))
         {
             this.y+=0.7
-            console.log("Moving the car backward");
         }
 
-        // bound the carPlayer to the grey road
-        // right direction
+        // moves player car to right
         if(this.player && (this.learning.actions_to_take_array[Direction.Right]))
         {
             this.x+=2;
-            console.log("Moving the car right");
         }
 
-        // bound the carPlayer to the grey road
-        // left direction
+        // moves player car to the left
         else if(this.player && (this.learning.actions_to_take_array[Direction.Left]))
         {
             this.x-=2;
-            console.log("Moving the car left");
         }
-
-
-
-
-        // Right the car can either forward left, forward right, backward right, backward left,
-        // and need to relook at the algorithm
     }
 
     updateCar(road_boundaries, traffic)
     {
-        // document.write("updating car!!");
-        // stops the car from moving past the road boundaries
-
-
-        // CREATE A RESET FUNCTION SO THAT IF THE CAR GETS INTO A COLLISION
-        // WITH ANOTHER CAR OR THE ROAD IT WILL RESET AT THE MIDDLE OF THE SIMULATION ENVIRONMENT
-        // OR MAKE ADD IN A BUTTON TO THE CANVAS WHENEVER this.damaged == true
-
+        // stops the car if collision occurred or if it moved past the road boundaries
         if((!this.damaged) || (!this.player))
         {
             this.#movePosition();
             this.car_points = this.#createPoints();
             this.damaged = this.#isDamaged(road_boundaries, traffic);
-            // document.write("car class, updateCar function, not damaged!!");}
         }
-        // this.#movePosition();
-        // this.car_points = this.#createPoints();
-        // this.damaged = this.#isDamaged(road_boundaries);
-        
-
+    
+        // draws sensors for the player car
         if (this.player)
         {
             this.car_sensors.updateSensor(road_boundaries, traffic);
-            console.log(this.car_sensors);
         }
     }
 

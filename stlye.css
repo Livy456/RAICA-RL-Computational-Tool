@@ -1,26 +1,5 @@
-
-
-/* #Qtable{
-    background-color: azure;
-    border:20px solid pink;
-    color:black;
-} */
-
-/* #empty-space{
-    width:100px;
-    height:100px;
-} */
-
-/* #Reward_table{
-    border:5px solid rgb(0, 191, 255);
-    color:white;
-    background-color: black;
-    display: grid;
-} */
-
 .home-grid{
     display: grid;
-    /* grid-template-columns: repeat(auto-fill, minmax(20em, 1fr)); */
 }
 
 nav{
@@ -77,39 +56,9 @@ li{
     color: black;
 }
 
-.simulation-grid{
-    display: grid;
-    grid-template-columns: 25fr 15fr 15fr;
-    grid-template-rows: auto auto 50px;
-    grid-row-gap: 10px;
-    background-color: transparent;
-    padding: 0px;
-    margin:0px;
-}
-
-.game_canvas{
-    /* background-color: pink; */
-    padding-right: 5px;
-    padding-left: 5px;
-    padding-top:0px;
-    margin: 0px;
-
-}
-
 #car_game_design{
     padding-left: 0px;
     margin-left: 0px;
-    margin-top:10px;
-    /* border-right:rgb(0, 29, 54);
-    border-width: 5px; */
-    /* color:rgb(152, 189, 223);
-    grid-row: 1 / -1;
-    grid-column: 1;
-    font-family: 'Courier New', Courier, monospace;
-    margin: 0px;
-    border-right: 10px solid rgb(145, 189, 254);
-    text-align: center;
-    padding-right:5px;  */
 }
 
 section.subgrid{
@@ -117,9 +66,7 @@ section.subgrid{
     grid-template-columns: 135px 50px;
     grid-template-rows: 50px 50px 50px 50px 50px;
     margin: 0px;
-    padding: 0px;
-    /* background-color: rgb(255, 146, 127); */
-    
+    padding: 0px;    
 }
 
 .learning_rate_container{
@@ -133,7 +80,6 @@ section.subgrid{
     font-family: Georgia;
     font-style: bold;
     font-size: 20px;
-    /* background-color: antiquewhite; */
 }
 
 #action2{
@@ -204,7 +150,6 @@ dt.column3{
 }
 
 #learningRate{
-    /* width: 300px; */
     padding-top:10px;
     margin: 10px;
     font-size: 25px;
@@ -233,18 +178,19 @@ dt.column3{
 }
 
 h3.heading_current_state{
-    padding-left: 10px;
     font-size: 30px;
-    /* font-style: thin; */
     font-family: 'Trebuchet MS';
     color: rgb(128, 30, 30);
+    background-color: pink;
+    margin-top: 0px;
+    padding: 10px;
+    margin-bottom:15px;
 }
 
 body{
     background-color: rgb(251, 251, 251);
     color:rgb(0, 0, 0);
     text-decoration-color: black;
-    /* overflow:hidden; */
 }
 
 h1{
@@ -291,3 +237,21 @@ label{
   tr:nth-child(even) {
     background-color: #c4c4c4;
   } */
+
+/* #Qtable{
+    background-color: azure;
+    border:20px solid pink;
+    color:black;
+} */
+
+/* #empty-space{
+    width:100px;
+    height:100px;
+} */
+
+/* #Reward_table{
+    border:5px solid rgb(0, 191, 255);
+    color:white;
+    background-color: black;
+    display: grid;
+} */

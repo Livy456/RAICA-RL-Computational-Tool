@@ -121,7 +121,10 @@ class Sensor
     {
         for(let i=0; i < this.num_sensors; i++)
         {
+            // console.log("sensors[i]", this.sensors[i]);
+            // console.log("sensors[i][0]", this.sensors[i][0]);
             const start = this.sensors[i][0];
+            
             let end = this.sensors[i][1]; // can be modified
             const previous_end = this.sensors[i][1];
             

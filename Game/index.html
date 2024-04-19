@@ -10,57 +10,190 @@
     
 </head>   
 
-
 <style>
+.simulation-grid{
+    display: grid;
+    grid-template-columns: 20fr 25fr 15fr;
+    grid-template-rows: auto auto 50px;
+    grid-row-gap: 10px;
+    padding: 0px;
+    margin-left:0px;
+    margin-top:0px;
+}
 #lr_slider{
+    width: 250px;
+    margin-top: 20px;
+}
+#learningRate{
+    width: 300px;
+    text-align: left;
+    margin-left: 0px;
+}
 
+#learning_rate_value{
+    margin-top: 10px;
+    font-size: 25px;
+    font-style: italic;
+    color: rgb(152, 152, 152);
+}
+
+.slider_subgrid{
+    display: grid;
+    grid-template-columns: 4fr 5fr;
+}
+
+.lr_label{
+    font-size: 25px;
+    color: rgb(64, 64, 64);
+    font-style: bold;
+    font-family: 'Geneva';
+    margin-top:10px;
+}
+
+#current_state{
+    font-size: 30px;
+    padding: 20px;
+    padding-right:30px;
+    box-shadow: 5px 5px 5px grey;
+    border-radius: 5px;
+    color: rgb(70, 56, 40);
+}
+
+.game_grid_column2{
+    background-color: rgb(240, 240, 240);
+}
+
+.game_canvas{
+    padding-left: 5px;
+    padding-top:0px;
+    padding-right: 0px;
+    margin: 0px;
+}
+
+.Qtable{
+    display: grid;
+    grid-template-columns: 5fr 5fr;
+    grid-template-rows: 2fr 2fr 2fr 2fr 2fr;
+    font-size: 30px;
+    margin: 0px;
+    padding: 0px;
+
+    dd{
+        grid-row: inherit;
+        border: 3px solid black;
+        background-color: rgb(216, 165, 165);
+        padding-left: 5px;
+        padding-right: 5px;
+        font-style: bold;
+        font-family: Georgia;
+        /* box-shadow: 5px 5px 5px rgb(229, 133, 149); */
+    }
+    dt{
+        padding-left: 10fr;
+        text-align: center;
+        border-top: 3px solid black;
+        border-right: 3px solid black;
+        border-bottom: 3px solid black;
+        background-color: rgb(255, 240, 240);
+
+    }
+}
+
+h2{
+    padding:10px;
+    margin-left:25px;
+}
+
+.reward_subgrid{
+    padding-left: 10px;
+    text-align: left;
+    padding-top:10px;
+
+    dt{
+        padding-bottom: 10px;
+    }
+}
+
+img{
+    border: none;
+    /* stroke-opacity: 0%; */
+}
+
+.column3_row1{
+    padding-bottom:20px;
+    margin: 0px;
+    padding-left: 0px;
+    /* background-color: black; */
+    box-shadow: 5px 5px 5px grey;
+    border-radius: 5px;
 }
 
 </style>
 <body>
-    <!-- <header>
-        <h1 id="game_title"> RL Car Simulation Game</h1>
-    </header> -->
-
-    <!-- <image class= "player" src="../Images/carAvatar.png"></image> -->
+    
     <dl class="simulation-grid">
         <dd class="game_canvas">
-            <canvas id="car_game_design" width="550" height="550"></canvas>
+            <canvas id="car_game_design" width="550" height="586">
+                <image class= "player" src="../Images/carAvatar.png" height="60px" width="30px"></image>
+            </canvas>
+            
         </dd>
         <dt class="game_grid_column2">
-            <input type="button" value="Play" id="Start-Button" onclick="startPlayingGame()">
-            
-            <dl class="learning_rate_container">
-                <label id="learningRate"><b>Learning Rate</b></label>
-                <input type="range" id="lr_slider" min="1" max="100" value="50">
-                <label>Learning Rate: <p id="learning_rate_value">0.5</p></label>
-            </dl>
             
             <h3 class="heading_current_state">Current State: </h3> 
             <label id="current_state">Nothing Detected</label>
+
+            <dl class="learning_rate_container">
+                <input type="range" id="lr_slider" min="1" max="100" value="50">
+                <div class="slider_subgrid">
+                    <label class="lr_label">Learning Rate: </label>
+                    <p id="learning_rate_value">0.5</p>
+                </div>
+            </dl>
+
+            <input type="button" value="Play" id="Start-Button" onclick="startPlayingGame()">
+
+            <!-- Q TABLE -->
+            <h2 id="q_values_heading">Q Values for Nothing Detected</h2>
+            <dl class="Qtable">
+                <dd id="q_action1">Forward</dd>
+                <dt id="q_value1">0</dt>
+                
+                <dd id="q_action2">Backward</dd>
+                <dt id="q_value2">0</dt>
+                
+                <dd id="q_action3">Left</dd>
+                <dt id="q_value3">0</dt>
+                
+                <dd id="q_action4">Right</dd>
+                <dt id="q_value4">0</dt>
+                
+                <dd id="q_action5">Stop</dd>
+                <dt id="q_value5">0</dt>
+            </dl>
             
         </dt>
 
         <dl>
-            <dt class="column1">
-                <img height="200px" width="200px" id="current_state_img"></img>
-            </dt>
-
-            <section class="subgrid">
+            <section class="reward_subgrid">
+                <div class="column3_row1">
+                    <img height="200px" width="200px" id="current_state_img"></img>
+                </div>
+                
                 <dd id="action1">Forward:</dd>
-                <dt id="value1"><input type="number" value="1"></dt>
+                <dt><input id="value1" type="number" value="1"></dt>
 
                 <dd id="action2">Backward:</dd>
-                <dt id="value2"><input type="number" value="1"></dt>
+                <dt><input id="value2" type="number" value="1"></dt>
 
                 <dd id="action3">Left:</dd>
-                <dt id="value3"><input type="number" value="1"></dt>
+                <dt><input id="value3" type="number" value="1"></dt>
 
                 <dd id="action4">Right:</dd>
-                <dt id="value4"><input type="number" value="1"></dt>
+                <dt><input id="value4" type="number" value="1"></dt>
 
                 <dd id="action5">Stop:</dd>
-                <dt id="value5"><input type="number" value="1"></dt>
+                <dt><input id="value5" type="number" value="1"></dt>
             </section>
             
         </dl>
