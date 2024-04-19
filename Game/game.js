@@ -23,6 +23,17 @@ let traffic = [
     new Car(traffic_car_positions[3][0], traffic_car_positions[3][1], CAR_WIDTH, CAR_HEIGHT, false),
 ];
 
+function changeRewardValue(id, index){
+    
+    let textfield = document.getElementById(id);
+
+    // console.log("before: ", car.learning.reward_array[index]);
+
+    // updates the reward array
+    car.learning.reward_array[index] = textfield.value;
+    // console.log("after: ", car.learning.reward_array[index]);
+}
+
 function startPlayingGame(){
     let button = document.getElementById("Start-Button");
 

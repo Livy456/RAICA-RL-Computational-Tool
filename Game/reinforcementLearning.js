@@ -21,7 +21,7 @@ class reinforcementLearning
             for (let j=0; j<this.num_actions;j++)
             {
                 // q_values.push(Math.random() * this.num_actions);
-                reward_values.push(0);
+                reward_values.push(1);
                 q_values.push(0);
             }
             this.qTable.push(q_values);
@@ -120,18 +120,28 @@ class reinforcementLearning
         this.learning_rate = slider.value / 100;
         let lr_label = document.getElementById("learning_rate_value");
         lr_label.innerHTML = this.learning_rate;
-        const id_name = "q_value";
+        const q_id_name = "q_value";
+        const reward_id_name = "value";
         let heading = document.getElementById("q_values_heading");
         heading.innerHTML = "Q Values for " + this.current_state;
-        let index_current_state = this.state_index_mapping.get(this.current_state);
-        console.log("qtable values: ", this.qTable);
+        let current_state_index = this.state_index_mapping.get(this.current_state);
+        this.reward_matrix[current_state_index] = this.reward_array;
+        // console.log(this.reward_matrix[current_state_index]);
+        // console.log(this.reward_array);
+        // console.log("qtable values: ", this.qTable);
+        // let current_state_index = this.state_index_mapping.get(this.current_state);
 
         for (let i=1; i <= this.num_actions; i++)
         {
-            let q_id = id_name + i.toString();
+            let q_id = q_id_name + i.toString();
             let q_cell = document.getElementById(q_id);
-            let value = this.qTable[index_current_state][i-1].toFixed(2);
-            q_cell.innerHTML = value;
+            let reward_id = reward_id_name + i.toString();
+            let reward_cell = document.getElementById(reward_id);
+
+            let q_value = this.qTable[current_state_index][i-1].toFixed(2);
+            let reward_value = this.reward_matrix[current_state_index][i-1];
+            q_cell.innerHTML = q_value;
+            reward_cell.value = reward_value;
         }
 
 
@@ -170,8 +180,9 @@ class reinforcementLearning
             if (this.sensor.sensor_readings[i])
             {
                 let end = this.sensor.sensors[i][1];
+                // the car is not updating whether it is damaged
                 // console.log(i, "th sensor: ", this.sensor.sensors[i]);
-                console.log("is the car damaged: ", this.car.damaged);
+                // console.log("is the car damaged: ", this.car.damaged);
                 if (this.car.damaged)
                 {
                     console.log("I got into a collision!!");
@@ -208,8 +219,6 @@ class reinforcementLearning
                     state = "Object Intersection Behind";
                     this.current_state = "Car Detected";
                 }
-
-                
 
                 break;
             }
@@ -407,17 +416,18 @@ class reinforcementLearning
         }   
     }
 
+    
+
     Qlearning()
     {
-        this.#updateValues(); 
         this.#getRewards();
-        console.log("reward_values: ", this.reward_array);
-        const prevState = this.current_state;
-
-        const new_state = this.#updateState();
         const state_index = this.state_index_mapping.get(this.current_state);
         this.reward_matrix[state_index] = this.reward_array; // updates the reward values for current state
-
+        this.#updateValues(); 
+        
+        // console.log("reward_values: ", this.reward_array);
+        const prevState = this.current_state;
+        const new_state = this.#updateState();
         this.current_action = this.#chooseAction(new_state); // Chooses a random action for new state
         const action_index = this.action_index_mapping.get(this.current_action);
 
@@ -444,7 +454,7 @@ class reinforcementLearning
         const new_action_index = this.action_index_mapping.get(optimal_action)
         this.actions_to_take_array[new_action_index] = true;
 
-        console.log(this.actions_to_take);
+        // console.log(this.actions_to_take);
         // console.log(this.actions_to_take_array);
 
         let state_label  = document.getElementById("current_state")

@@ -82,6 +82,7 @@
         grid-row: inherit;
         border: 3px solid black;
         background-color: rgb(216, 165, 165);
+        /* box-shadow: 5px 5px 5px grey; */
         padding-left: 5px;
         padding-right: 5px;
         font-style: bold;
@@ -181,19 +182,19 @@ img{
                 </div>
                 
                 <dd id="action1">Forward:</dd>
-                <dt><input id="value1" type="number" value="1"></dt>
+                <dt><input id="value1" type="number" value="1" onchange="{changeRewardValue('value1', 0)}"></dt>
 
                 <dd id="action2">Backward:</dd>
-                <dt><input id="value2" type="number" value="1"></dt>
+                <dt><input id="value2" type="number" value="1" onchange="{changeRewardValue('value2', 1)}"></dt>
 
                 <dd id="action3">Left:</dd>
-                <dt><input id="value3" type="number" value="1"></dt>
+                <dt><input id="value3" type="number" value="1" onchange="{changeRewardValue('value3', 2)}"></dt>
 
                 <dd id="action4">Right:</dd>
-                <dt><input id="value4" type="number" value="1"></dt>
+                <dt><input id="value4" type="number" value="1" onchange="{changeRewardValue('value4', 3)}"></dt>
 
                 <dd id="action5">Stop:</dd>
-                <dt><input id="value5" type="number" value="1"></dt>
+                <dt><input id="value5" type="number" value="1" onchange="{changeRewardValue('value5', 4)}"></dt>
             </section>
             
         </dl>

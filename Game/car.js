@@ -110,31 +110,31 @@ class Car{
         // default movement for a non player character is forward
         if (! this.player)
         {
-            this.y-=0.5;
+            this.y-=0.2;
         }
 
         // moves player car forward
         if(this.player && (this.learning.actions_to_take_array[Direction.Forward]))
         {
-            this.y -= 0.7
+            this.y -= 0.5
         }
 
         // moves player backward
         else if(this.player && (this.learning.actions_to_take_array[Direction.Backward]))
         {
-            this.y+=0.7
+            this.y+=0.5
         }
 
         // moves player car to right
         if(this.player && (this.learning.actions_to_take_array[Direction.Right]))
         {
-            this.x+=2;
+            this.x+=0.5;
         }
 
         // moves player car to the left
         else if(this.player && (this.learning.actions_to_take_array[Direction.Left]))
         {
-            this.x-=2;
+            this.x-=0.5;
         }
     }
 
