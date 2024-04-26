@@ -54,13 +54,18 @@
     font-size: 30px;
     padding: 20px;
     padding-right:30px;
-    box-shadow: 5px 5px 5px grey;
+    /* box-shadow: 5px 5px 5px grey; */
     border-radius: 5px;
-    color: rgb(70, 56, 40);
+    color: rgb(55, 55, 55);
 }
 
 .game_grid_column2{
-    background-color: rgb(240, 240, 240);
+    /* background-color: rgb(240, 240, 240); */
+    border-right: 1px solid rgb(212, 212, 212);
+    padding-right: 10px;
+    box-shadow: 5px 5px 5px grey;
+    padding-bottom: 5px;
+    border-radius: 5px;
 }
 
 .game_canvas{
@@ -68,6 +73,7 @@
     padding-top:0px;
     padding-right: 0px;
     margin: 0px;
+    padding-bottom: 5px;
 }
 
 .Qtable{
@@ -140,8 +146,9 @@ img{
     
     <dl class="simulation-grid">
         <dd class="game_canvas">
+            <!-- <image class= "player" src="../Images/carAvatar.png" height="60px" width="30px"></image> -->
             <canvas id="car_game_design" width="550" height="586">
-                <image class= "player" src="../Images/carAvatar.png" height="60px" width="30px"></image>
+                
             </canvas>
             
         </dd>

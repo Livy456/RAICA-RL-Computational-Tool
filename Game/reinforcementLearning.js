@@ -2,17 +2,15 @@ class reinforcementLearning
 {
     constructor(car, sensor)
     {
-        this.num_states = 4;
+        this.num_states = 5;
         this.num_actions = 5;
         this.car = car;
         this.sensor = sensor;
-        this.states = ["Car Detected", "Road Border Detected", "Collision", "Nothing Detected"];
+        this.states = ["Car Detected", "Left Road Border Detected", "Right Road Border Detected", "Collision", "Nothing Detected"];
         this.actions = ["Forward", "Backward", "Left", "Right", "Stop"];
         this.reward_array = this.#getRewards();
         this.reward_matrix = [];
         this.qTable = [];
-
-        // ADD ANOTHER STATE, SPLIT UP THE ROAD BORDER INTO LEFT AND RIGHT BORDER DETECTED
         
         // initialize all q values to 0
         for (let i=0; i<this.num_states; i++)
@@ -20,7 +18,7 @@ class reinforcementLearning
             let q_values = [];
             let reward_values = [];
 
-            for (let j=0; j<this.num_actions;j++)
+            for (let j=0; j<this.num_actions; j++)
             {
                 // q_values.push(Math.random() * this.num_actions);
                 reward_values.push(1);
@@ -54,16 +52,15 @@ class reinforcementLearning
         ]);
         this.state_index_mapping = new Map([
             ["Car Detected", 0],
-            ["Road Border Detected", 1],
-            ["Collision", 2],
-            ["Nothing Detected", 3],
+            ["Left Road Border Detected", 1],
+            ["Right Road Border Detected", 2],
+            ["Collision", 3],
+            ["Nothing Detected", 4],
         ]);
 
         // MIGHT NEED TO ADD MORE STATES
         // CAR DETECTED FRONT
         // CAR DETECTED BEHIND
-        // ROAD BORDER DETECTED LEFT
-        // ROAD BORDER DETECTED RIGHT
         // END OF ROAD? - Road border detected above/below
 
         this.action_index_mapping = new Map([
@@ -128,8 +125,8 @@ class reinforcementLearning
         heading.innerHTML = "Q Values for " + this.current_state;
         let current_state_index = this.state_index_mapping.get(this.current_state);
         this.reward_matrix[current_state_index] = this.reward_array;
-        // console.log(this.reward_matrix[current_state_index]);
-        // console.log(this.reward_array);
+        // console.log("reward_matrix", this.reward_matrix[current_state_index]);
+        // console.log("reward array ", this.reward_array);
         // console.log("qtable values: ", this.qTable);
         // let current_state_index = this.state_index_mapping.get(this.current_state);
 
@@ -139,13 +136,15 @@ class reinforcementLearning
             let q_cell = document.getElementById(q_id);
             let reward_id = reward_id_name + i.toString();
             let reward_cell = document.getElementById(reward_id);
-
             let q_value = this.qTable[current_state_index][i-1].toFixed(2);
+            console.log("iteration: ", i);
+            console.log("qtable for all actions: ", this.qTable[current_state_index] );
+            console.log("state_index: ", current_state_index, " q_value: ", q_value);
+
             let reward_value = this.reward_matrix[current_state_index][i-1];
             q_cell.innerHTML = q_value;
             reward_cell.value = reward_value;
         }
-
     }
 
     // need to make a time step function to be able to make a time step to the next state
@@ -153,13 +152,20 @@ class reinforcementLearning
     {
         let state = "Nothing Detected";
         const num_sensors_quadrant = parseInt(this.sensor.num_sensors / 4);
+        // console.log("damaged: ", this.car.damaged);
+        if(this.car.damaged)
+        {
+            return "Collision";
+        }
 
         for (let i=0; i < this.sensor.num_sensors; i++)
         {
-        
             // check if sensor intersected something
             if (this.sensor.sensor_readings[i])
             {
+                console.log("sensor: ", i);
+                console.log("sensor_readings[i] (x,y): ", this.sensor.sensor_readings[i].x, this.sensor.sensor_readings[i].y);
+
                 // sensors in top right of the car detected something
                 if (i <= num_sensors_quadrant - 1)
                 {
@@ -171,65 +177,29 @@ class reinforcementLearning
                 else if(num_sensors_quadrant - 1 < i && i <= 2*num_sensors_quadrant - 1)
                 {
                     state = "Right Object Intersection";
-                    this.current_state = "Road Border Detected";
+                    this.current_state = "Left Road Border Detected";
                 }
 
                 // sensors in bottom left of the car detected something
                 else if(2*num_sensors_quadrant - 1 < i && i <= 3*num_sensors_quadrant - 1)
                 {
                     state = "Left Object Intersection";
-                    this.current_state = "Road Border Detected";
+                    this.current_state = "Right Road Border Detected";
                 }
 
                 // sensors in top left of the car detect something
                 else if (i <= 4*num_sensors_quadrant-1)
                 {
                     state = "Object Intersection in Front";
-                    this.current_state = "Car Detected";
+                    this.current_state = "Left Road Border Detected";
                 }
+
+                console.log("current_state: ", this.current_state);
+                console.log("state: ", state);
                 break;
-                // let end = this.sensor.sensors[i][1];
-                // // the car is not updating whether it is damaged
-                // if (this.car.damaged)
-                // {
-                //     console.log("I got into a collision!!");
-                //     state = "Collision";
-                //     this.current_state = "Collision";
-                //     break;
-                // }
-
-                // // check if object intersection is to left of the car
-                // if (end.x < this.sensor.car.car_points[0].x) 
-                // {
-                //     state = "Left Object Intersection";
-                //     this.current_state = "Road Border Detected";
-                // }
-
-                // // check if object intersection is in front of the car
-                // else if (end.y < this.sensor.car.car_points[0].y)
-                // {
-                //     state = "Object Intersection in Front";
-                //     this.current_state = "Car Detected";
-                // }
-
-                // // check if object intersection is to right of the car
-                // else if (end.x > this.sensor.car.car_points[1].x)
-                // {
-                //     state = "Right Object Intersection";
-                //     this.current_state = "Road Border Detected";
-                // }
-
-                // // check if object intersection is behind the car
-                // else if (end.y > this.sensor.car.car_points[1].y)
-                // {
-                //     state = "Object Intersection Behind";
-                //     this.current_state = "Car Detected";
-                // }
-
-                // break;
             }
-        }
-
+        } 
+        // if there are no sensor readings then defaults to "Nothing Detected"
         return state
     }
 
@@ -239,7 +209,6 @@ class reinforcementLearning
         let max_qvalue = -100;
 
         // EXPLOITATION OPTION, greedy choice
-
         // selects a random state to transition to 
         for (let action_index = 0; action_index < this.num_actions; action_index++)
         {
@@ -256,8 +225,8 @@ class reinforcementLearning
         return optimal_action
     }
 
-    // chooses an action to take given the current state
-    #chooseAction(state)
+    // chooses a random index(0, number of actions - 1) corresponding to an action to take
+    #chooseAction()
     {
         // EXPLORATION OPTION, random choice
         // gets a random number from 0 to number of actions - 1
@@ -268,126 +237,84 @@ class reinforcementLearning
 
     #rewardFunction(prevState, nextState)
     {
-        
         let reward = Math.random()*this.num_states;
 
         if(prevState === "Nothing Detected")
         {
-
             // continue to detected nothing
             if(nextState === "Nothing Detected")
             {
-                // return 5
                 // returns a random value between 0 and 5
-                return reward 
+                return reward; 
             }
-
             else if (nextState === "Road Border Detected")
             {
-                // return -1
                 // returns a random value between -5 and 0
-                return -reward
+                return -reward;
             }
-
             else if (nextState === "Collision")
             {
-                // return -5
-                return -reward
+                // returns a random value between -5 and 0
+                return -reward;
             }
-
             else if (nextState === "Car Detected")
             {
-                // return -1
-                return -reward
+                // returns a random value between -5 and 0
+                return -reward;
             }
         }
-
         if(prevState === "Car Detected")
         {
-
             // continue to detected nothing
             if(nextState === "Nothing Detected")
             {
-                // return 5
-                return reward
+                // returns a random value between 0 and 5
+                return reward;
             }
-
             else if (nextState === "Road Border Detected")
             {
-                // return 1
-                return reward
+                // returns a random value between 0 and 5
+                return reward;
             }
-
             else if (nextState === "Collision")
             {
-                // return -5
-                return -reward
+                // returns a random value between -5 and 0
+                return -reward;
             }
-
             else if (nextState === "Car Detected")
             {
-                // return -1
-                return -reward
+                // returns a random value between -5 and 0
+                return -reward;
             }
-            
         }
-
         if(prevState === "Road Border Detected")
         {
-
             // continue to detected nothing
             if(nextState === "Nothing Detected")
             {
-                // return 5
-                return reward
+                // returns a random value between 0 and 5
+                return reward;
             }
-
             else if (nextState === "Road Border Detected")
             {
-                // return 0
-                return reward
+                // returns a random value between 0 and 5
+                return reward;
             }
-
             else if (nextState === "Collision")
             {
-                // return -5
-                return -reward
+                // returns a random value between -5 and 0
+                return -reward;
             }
-
             else if (nextState === "Car Detected")
             {
-                // return 1
-                return reward
+                // returns a random value between 0 and 5
+                return reward;
             }
         }
-
         if(prevState === "Collision")
         {
-
-            // continue to detected nothing
-            if(nextState === "Nothing Detected")
-            {
-                // return 5
-                return reward
-            }
-
-            else if (nextState === "Road Border Detected")
-            {
-                // return 1
-                return reward
-            }
-
-            else if (nextState === "Collision")
-            {
-                // return -5
-                return -reward
-            }
-
-            else if (nextState === "Car Detected")
-            {
-                // return -5
-                return -reward
-            }
+            // returns a random value between -5 and 0
+            return -reward;
         }
     }
 
@@ -398,22 +325,18 @@ class reinforcementLearning
         {
             return "player_collision.png";
         }
-
         else if (state === "Nothing Detected")
         {
             return "player_nothing_detected.png";
         }
-
         else if(state === "Car Detected")
         {
             return "car_detected.png";
         }
-
         else if(state === "Left Road Border Detected")
         {   
             return "player_intersect_left_border.png";
         }
-
         else if(state === "Right Road Border Detected")
         {
             return "player_intersect_right_border.png";
@@ -422,6 +345,7 @@ class reinforcementLearning
 
     Qlearning()
     {
+        console.log("at the beginning of the q learning: ", this.qTable);
         this.#getRewards();
         const state_index = this.state_index_mapping.get(this.current_state);
         this.reward_matrix[state_index] = this.reward_array; // updates the reward values for current state
@@ -449,23 +373,42 @@ class reinforcementLearning
 
         let probability = Math.random();
         let threshold = 0.75;
-        const new_reward = this.#rewardFunction(prevState, this.current_state);
-        let optimal_action = this.#optimalQValue(state_index);
         
-        const reward = this.reward_array[action_index];
-        const current_q_value = this.qTable[state_index][action_index]
+        // chooses optimal action with probability 75%
+        if(probability < threshold)
+        {
+            // sets the next action to take to be the optimal action based on reward value
+            let optimal_action = this.#optimalQValue(state_index);
+            this.actions_to_take.set(optimal_action, true);
+            const new_action_index = this.action_index_mapping.get(optimal_action)
+            this.actions_to_take_array[new_action_index] = true;
+            const reward = this.reward_array[action_index];
+            const current_q_value = this.qTable[state_index][action_index];
 
-        // sets the next action to take to be the optimal action based on reward value
-        this.actions_to_take.set(optimal_action, true);
-        const new_action_index = this.action_index_mapping.get(optimal_action)
-        this.actions_to_take_array[new_action_index] = true;
+            console.log("current q value:", current_q_value);
 
-        // OLD REWARD SYSTEM
-        this.qTable[state_index][action_index] = (1 - this.learning_rate) * current_q_value +
+            // Updates the qtable based on the optimal action
+            this.qTable[state_index][action_index] = (1 - this.learning_rate) * current_q_value +
                                 this.learning_rate * (reward + this.gamma);
+        }
+        
+        // chooses a random action with probability 25%
+        else{
+            // MIGHT CHANGE IT SO THAT #CHOOSEACTION RETURNS AN INDEX INSTEAD OF AN ACTION
+            // SO THAT I CAN GET RID OF THE this.action_index_mapping, kinda redundant
+            let random_action = this.#chooseAction(state_index);
+            this.actions_to_take.set(random_action, true);
+            const new_action_index = this.action_index_mapping.get(random_action)
+            this.actions_to_take_array[new_action_index] = true;
+            const new_reward = this.#rewardFunction(prevState, this.current_state);
+            const current_q_value = this.qTable[state_index][action_index];
+            
+            // updates the qtable based on a random action
+            this.qTable[state_index][action_index] = (1 - this.learning_rate) * current_q_value +
+                                    this.learning_rate * (new_reward + this.gamma);
+        }
 
-        // NEW REWARD SYSTEM
-        // this.qTable[state_index][action_index] = (1 - this.learning_rate) * current_q_value +
-        //                             this.learning_rate * (new_reward + this.gamma);
+        
+        
     }
 }
