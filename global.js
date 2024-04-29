@@ -25,11 +25,13 @@ for(let p of pages)
    if (!AT_HOME_PAGE && !url.startsWith("http"))
    {
         url = "../" + url + "index.html";
+        console.log("Creating elements not on home page", url);
    }
 
    else if( AT_HOME_PAGE)
    {
       url = "./" +  url + "index.html";
+      console.log("Creating elements on home page", url);
    }
 
    a.href = url;
