@@ -1,9 +1,9 @@
 // define the pages for the navigation bar
 let pages = [
     {title:"Home", url:""},
-    {title:"Game", url:"Game/"},
-    {title:"Data", url:"Data/"},
-    {title:"Settings", url:"Settings/"},
+    {title:"Game", url:"./Game/"},
+    {title:"Data", url:"./Data/"},
+    {title:"Settings", url:"./Settings/"},
 ];
 
 // boolean value indicating whether on home page
