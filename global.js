@@ -1,9 +1,9 @@
 // define the pages for the navigation bar
 let pages = [
     {title:"Home", url:""},
-    {title:"Game", url:"./Game/"},
-    {title:"Data", url:"./Data/"},
-    {title:"Settings", url:"./Settings/"},
+    {title:"Game", url:"Game/"},
+    {title:"Data", url:"Data/"},
+    {title:"Settings", url:"Settings/"},
 ];
 
 // boolean value indicating whether on home page
@@ -25,6 +25,11 @@ for(let p of pages)
    if (!AT_HOME_PAGE && !url.startsWith("http"))
    {
         url = "../" + url + "index.html";
+   }
+
+   else if( AT_HOME_PAGE)
+   {
+      url = "./" +  url + "index.html";
    }
 
    a.href = url;
