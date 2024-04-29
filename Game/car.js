@@ -157,42 +157,49 @@ class Car{
 
     drawPlayer(ctx)
     {
+        this.car_sensors.drawSensor(ctx); // draws on the sensors
         
         if (this.damaged)
         {
-            ctx.fillStyle = "grey";
-
-
+            // ctx.fillStyle = "grey";
             // change this to grey version of the car
-
-            // const img = new Image();
-            // img.onload = () =>{
-            //     ctx.drawImage(img, this.x, this.y);
-            // };
-            // img.src = "../Images/carAvatar.png";
+            const img = new Image();
+            img.onload = () =>{
+                ctx.fillStyle = "grey";
+                ctx.drawImage(img, this.x, this.y, this.width, this.height);
+            };
+            img.src = "../Images/carAvatar.png";
         }
         else
         {
-            // const img = new Image();
-            // img.src = "../Images/carAvatar.png";
+            const img = new Image();
+            img.src = "../Images/carAvatar.png";
+
+            img.addEventListener("load", (e) => {
+                ctx.drawImage(img, this.x, this.y, this.width, this.height);
+            });
             // img.onload = () => {
-            //     ctx.drawImage(img, this.x, this.y);
+            //     // ctx.fillStyle = "black";
+            //     ctx.drawImage(img, 0, 0, 100, 100);
+            //     // console.log("the image is being drawn", 0, 0, 100, 100);
             // };
+
+            console.log(img.src);
             
             ctx.fillStyle = "black";    
         }
         
         // // ctx.fillRect(this.x, this.y, this.width, this.height);
-        ctx.beginPath();
-        ctx.moveTo(this.car_points[0].x, this.car_points[0].y);
+        // ctx.beginPath();
+        // ctx.moveTo(this.car_points[0].x, this.car_points[0].y);
 
-        for (let i = 1; i < this.car_points.length; i++)
-        {
-            ctx.lineTo(this.car_points[i].x, this.car_points[i].y);
-        }
-        ctx.fill();
+        // for (let i = 1; i < this.car_points.length; i++)
+        // {
+        //     ctx.lineTo(this.car_points[i].x, this.car_points[i].y);
+        // }
+        // ctx.fill();
     
-        this.car_sensors.drawSensor(ctx); // draws on the sensors
+        
     }
 
     drawTraffic(ctx)
@@ -205,7 +212,6 @@ class Car{
         {
             ctx.fillStyle = "blue";    
         }
-        // ctx.fillStyle = "blue";
         ctx.beginPath();
         ctx.moveTo(this.car_points[0].x, this.car_points[0].y);
 

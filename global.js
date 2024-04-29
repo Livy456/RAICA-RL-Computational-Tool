@@ -7,7 +7,8 @@ let pages = [
 ];
 
 // boolean value indicating whether on home page
-const AT_HOME_PAGE = document.documentElement.classList.contains("home");
+const AT_HOME_PAGE = document.body.classList.contains("home");
+console.log()
 
 // create navigation bar
 let nav = document.createElement("nav");

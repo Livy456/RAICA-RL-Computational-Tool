@@ -86,7 +86,10 @@ function startPlayingGame(){
 
 function animateGame()
 {    
-    highway.drawHighwayRoad(context);   // draws the highway state for the game
+    // car.drawPlayer(context);    // redraws the car object on the canvas
+    // return;
+    // highway.drawHighwayRoad(context);   // draws the highway state for the game
+    // car.drawPlayer(context);    // redraws the car object on the canvas
     let button = document.getElementById("Start-Button");
 
     if(button.value === "Pause" || button.value === "Reset")
@@ -103,20 +106,18 @@ function animateGame()
         
         // make the highway seem like it's moving
         context.save();
-        context.translate(0, -car.y + 3*HEIGHT / 4); // WEIRD 1 PIXEL HORIZONTAL BLUE LINE FORMS ON THE CANVAS
-        // context.translate(0, -car.y + HEIGHT / 2) // LOOKS NORMAL
+        // context.translate(0, -car.y + 3*HEIGHT / 4); // WEIRD 1 PIXEL HORIZONTAL BLUE LINE FORMS ON THE CANVAS
                                     
-        highway.drawHighwayRoad(context);   // draws the highway state for the game
+        // highway.drawHighwayRoad(context);   // draws the highway state for the game
         
-        // document.write("highway is drawn")
-        for (let j=0; j < traffic.length; j++)
-        {
-            traffic[j].drawTraffic(context); 
-        }
+        // draws traffic cars on the canvas
+        // for (let j=0; j < traffic.length; j++)
+        // {
+        //     traffic[j].drawTraffic(context); 
+        // }
         
-        car.drawPlayer(context);    // redraws the car object on the canvas
         context.restore();
-            
+        car.drawPlayer(context);    // redraws the car object on the canvas
     }
 
     // FOR SOME REASON THE CAR SENSORS ARE NOT BEING POPULATED, SO car.car_sensors is undefined

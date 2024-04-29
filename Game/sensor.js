@@ -139,6 +139,7 @@ class Sensor
             ctx.moveTo(start.x, start.y);
             ctx.lineTo(previous_end.x, previous_end.y);
             ctx.stroke();
+            ctx.closePath();
 
             // colors the intersection region of sensor red 
             ctx.beginPath();
@@ -147,6 +148,7 @@ class Sensor
             ctx.moveTo(previous_end.x, previous_end.y);
             ctx.lineTo(end.x, end.y);
             ctx.stroke();
+            ctx.closePath();
         }
     }
 }

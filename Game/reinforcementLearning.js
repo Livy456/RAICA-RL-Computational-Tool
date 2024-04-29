@@ -137,9 +137,9 @@ class reinforcementLearning
             let reward_id = reward_id_name + i.toString();
             let reward_cell = document.getElementById(reward_id);
             let q_value = this.qTable[current_state_index][i-1].toFixed(2);
-            console.log("iteration: ", i);
-            console.log("qtable for all actions: ", this.qTable[current_state_index] );
-            console.log("state_index: ", current_state_index, " q_value: ", q_value);
+            // console.log("iteration: ", i);
+            // console.log("qtable for all actions: ", this.qTable[current_state_index] );
+            // console.log("state_index: ", current_state_index, " q_value: ", q_value);
 
             let reward_value = this.reward_matrix[current_state_index][i-1];
             q_cell.innerHTML = q_value;
@@ -163,8 +163,8 @@ class reinforcementLearning
             // check if sensor intersected something
             if (this.sensor.sensor_readings[i])
             {
-                console.log("sensor: ", i);
-                console.log("sensor_readings[i] (x,y): ", this.sensor.sensor_readings[i].x, this.sensor.sensor_readings[i].y);
+                // console.log("sensor: ", i);
+                // console.log("sensor_readings[i] (x,y): ", this.sensor.sensor_readings[i].x, this.sensor.sensor_readings[i].y);
 
                 // sensors in top right of the car detected something
                 if (i <= num_sensors_quadrant - 1)
@@ -194,8 +194,8 @@ class reinforcementLearning
                     this.current_state = "Left Road Border Detected";
                 }
 
-                console.log("current_state: ", this.current_state);
-                console.log("state: ", state);
+                // console.log("current_state: ", this.current_state);
+                // console.log("state: ", state);
                 break;
             }
         } 
