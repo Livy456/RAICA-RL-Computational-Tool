@@ -7,7 +7,8 @@ const HEIGHT = 150;
 const HIGHWAY_LINE_WIDTH = 5;
 const HIGHWAY_LANE_COUNT = 3;
 const CAR_WIDTH = 30;
-const CAR_HEIGHT = 35;
+const CAR_HEIGHT = 45;
+const player_car_position = [WIDTH/2 + 10, 2 * HEIGHT/3 + 150];
 const traffic_car_positions = [ [WIDTH/2 + 10, -HEIGHT/2],
                                 [WIDTH/2 + 10, -3*HEIGHT/2],
                                 [WIDTH/2 + 10, HEIGHT/8],
@@ -15,7 +16,7 @@ const traffic_car_positions = [ [WIDTH/2 + 10, -HEIGHT/2],
 
 // Instantiate Objects for game
 const highway = new Road(WIDTH/2, 10, HIGHWAY_LANE_COUNT, "highway", CAR_WIDTH); // instantiates a road instance
-let car = new Car(WIDTH/2 + 10, 2 * HEIGHT/3 + 50, CAR_WIDTH, CAR_HEIGHT, true); // put the car in the middle of the page
+let car = new Car(player_car_position[0], player_car_position[1], CAR_WIDTH, CAR_HEIGHT, true); // put the car in the middle of the page
 let traffic = [
     new Car(traffic_car_positions[0][0], traffic_car_positions[0][1], CAR_WIDTH, CAR_HEIGHT, false),
     new Car(traffic_car_positions[1][0], traffic_car_positions[1][1], CAR_WIDTH, CAR_HEIGHT, false),
@@ -25,8 +26,9 @@ let traffic = [
 
 function changeRewardValue(id, index){
     
+    console.log("inside change reward value!!!");
     let textfield = document.getElementById(id);
-
+    console.log("textfield: ", textfield);
     // console.log("before: ", car.learning.reward_array[index]);
 
     // updates the reward array
@@ -51,7 +53,7 @@ function startPlayingGame(){
     {
         button.value = "Pause"
         // resets the attributes of the player car
-        car = new Car(WIDTH/2 + 10, 2 * HEIGHT/3 + 50, CAR_WIDTH, CAR_HEIGHT, true)
+        car = new Car(player_car_position[0], player_car_position[1], CAR_WIDTH, CAR_HEIGHT, true)
         let learning_rate = document.getElementById("lr_slider");
         let lr_label = document.getElementById("learning_rate_value");
         learning_rate.value = 50;
@@ -80,55 +82,41 @@ function startPlayingGame(){
             let reward_field = document.getElementById(reward_id);
             reward_field.value = 1;
         }
-    
     }
 };
 
 function animateGame()
-{    
+{       
+    // car.updateCar(highway.road_boundaries, traffic, false); // updates the position of the car
     // car.drawPlayer(context);    // redraws the car object on the canvas
-    // return;
     // highway.drawHighwayRoad(context);   // draws the highway state for the game
-    // car.drawPlayer(context);    // redraws the car object on the canvas
     let button = document.getElementById("Start-Button");
 
     if(button.value === "Pause" || button.value === "Reset")
     {
-        context.clearRect(0, 0, context.canvas.width, context.canvas.height) // resets the canvas so the moving objects don't blend into one long line
-        
+        context.clearRect(0, 0, context.canvas.width, context.canvas.height);
         for(let i = 0; i < traffic.length; i++)
         {
             // will stop the traffic car if it goes outside road boundaries or collides with the player car
             traffic[i].updateCar(highway.road_boundaries, [car]);
         }
         car.updateCar(highway.road_boundaries, traffic); // updates the position of the car
-        // car.movePosition(highway.road_boundaries, highway.topRoad, highway.bottomRoad); // moves x and y position of car object
         
         // make the highway seem like it's moving
         context.save();
-        // context.translate(0, -car.y + 3*HEIGHT / 4); // WEIRD 1 PIXEL HORIZONTAL BLUE LINE FORMS ON THE CANVAS
+        context.translate(0, -car.y + 2 * HEIGHT/3); // WEIRD 1 PIXEL HORIZONTAL BLUE LINE FORMS ON THE CANVAS
                                     
-        // highway.drawHighwayRoad(context);   // draws the highway state for the game
+        highway.drawHighwayRoad(context);   // draws the highway state for the game
         
         // draws traffic cars on the canvas
-        // for (let j=0; j < traffic.length; j++)
-        // {
-        //     traffic[j].drawTraffic(context); 
-        // }
+        for (let j=0; j < traffic.length; j++)
+        {
+            traffic[j].drawTraffic(context); 
+        }
         
         context.restore();
         car.drawPlayer(context);    // redraws the car object on the canvas
     }
-
-    // FOR SOME REASON THE CAR SENSORS ARE NOT BEING POPULATED, SO car.car_sensors is undefined
-    // else{
-    //     for (let j=0; j < traffic.length; j++)
-    //     {
-    //         traffic[j].drawTraffic(context); 
-    //     }
-    //     console.log("car sensors", car.car_sensors);
-    //     car.drawPlayer(context);    // redraws the car object on the canvas
-    // }
 
     requestAnimationFrame(animateGame); // repeatedly runs function, to make the game appear animated
     

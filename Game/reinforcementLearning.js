@@ -127,7 +127,8 @@ class reinforcementLearning
         this.reward_matrix[current_state_index] = this.reward_array;
         // console.log("reward_matrix", this.reward_matrix[current_state_index]);
         // console.log("reward array ", this.reward_array);
-        // console.log("qtable values: ", this.qTable);
+        console.log("qtable values: ", JSON.stringify(this.qTable, null, 2));
+
         // let current_state_index = this.state_index_mapping.get(this.current_state);
 
         for (let i=1; i <= this.num_actions; i++)
@@ -138,13 +139,26 @@ class reinforcementLearning
             let reward_cell = document.getElementById(reward_id);
             let q_value = this.qTable[current_state_index][i-1].toFixed(2);
             // console.log("iteration: ", i);
-            // console.log("qtable for all actions: ", this.qTable[current_state_index] );
-            // console.log("state_index: ", current_state_index, " q_value: ", q_value);
+            console.log("qtable for all actions: ", this.qTable[current_state_index] );
+            console.log("state_index: ", current_state_index, " q_value: ", q_value);
+            console.log("qtable values: ", JSON.stringify(this.qTable, null, 2));
 
             let reward_value = this.reward_matrix[current_state_index][i-1];
+
+            // might need to brute force a solution
+            // if undefined q value then set to zero
+            if (Number.isNaN(q_value))
+            {
+                this.qTable[current_state_index][i-1] = 0;
+                q_value = 0;
+            }
+            
             q_cell.innerHTML = q_value;
             reward_cell.value = reward_value;
         }
+        
+
+        // if you store a reference to the state array
     }
 
     // need to make a time step function to be able to make a time step to the next state
@@ -160,6 +174,9 @@ class reinforcementLearning
 
         for (let i=0; i < this.sensor.num_sensors; i++)
         {
+            //ERROR WHENEVER THE PLAYER DETECTS ONE OF THE 
+            // ROAD BORDERS
+            
             // check if sensor intersected something
             if (this.sensor.sensor_readings[i])
             {
@@ -176,10 +193,12 @@ class reinforcementLearning
                 // sensors in bottom right of the car detected something
                 else if(num_sensors_quadrant - 1 < i && i <= 2*num_sensors_quadrant - 1)
                 {
-                    state = "Right Object Intersection";
+                    state = "Left Object Intersection";
                     this.current_state = "Left Road Border Detected";
                 }
 
+
+                // FIX THIS!!
                 // sensors in bottom left of the car detected something
                 else if(2*num_sensors_quadrant - 1 < i && i <= 3*num_sensors_quadrant - 1)
                 {
@@ -187,15 +206,16 @@ class reinforcementLearning
                     this.current_state = "Right Road Border Detected";
                 }
 
-                // sensors in top left of the car detect something
+                // sensors in the right of the car detect something
                 else if (i <= 4*num_sensors_quadrant-1)
                 {
-                    state = "Object Intersection in Front";
-                    this.current_state = "Left Road Border Detected";
+                    state = "Object Intersection in to Right";
+                    this.current_state = "Right Road Border Detected";
                 }
 
                 // console.log("current_state: ", this.current_state);
                 // console.log("state: ", state);
+                // console.log("Breaking out of the loop!!!");
                 break;
             }
         } 
@@ -209,7 +229,7 @@ class reinforcementLearning
         let max_qvalue = -100;
 
         // EXPLOITATION OPTION, greedy choice
-        // selects a random state to transition to 
+        // selects optimal action based on the current state
         for (let action_index = 0; action_index < this.num_actions; action_index++)
         {
             const q_value = this.qTable[transition_state_index][action_index];
@@ -345,7 +365,9 @@ class reinforcementLearning
 
     Qlearning()
     {
-        console.log("at the beginning of the q learning: ", this.qTable);
+        // console.log("at the beginning of the q learning: ", this.qTable);
+        console.log("qtable values: ", JSON.stringify(this.qTable, null, 2));
+
         this.#getRewards();
         const state_index = this.state_index_mapping.get(this.current_state);
         this.reward_matrix[state_index] = this.reward_array; // updates the reward values for current state
@@ -372,9 +394,9 @@ class reinforcementLearning
         state_img.src = "../Game/Images/" + this.#image_url(this.current_state);
 
         let probability = Math.random();
-        let threshold = 0.75;
+        let threshold = 0.7;
         
-        // chooses optimal action with probability 75%
+        // chooses optimal action with probability 70%
         if(probability < threshold)
         {
             // sets the next action to take to be the optimal action based on reward value
@@ -382,17 +404,33 @@ class reinforcementLearning
             this.actions_to_take.set(optimal_action, true);
             const new_action_index = this.action_index_mapping.get(optimal_action)
             this.actions_to_take_array[new_action_index] = true;
-            const reward = this.reward_array[action_index];
-            const current_q_value = this.qTable[state_index][action_index];
+            let reward = this.reward_array[action_index];
+            let current_q_value = this.qTable[state_index][action_index];
 
-            console.log("current q value:", current_q_value);
+            // console.log("current q value:", current_q_value);
+            console.log("current q value in if conditional q learning loop: ", current_q_value);
+            console.log("reward in q learning loop: ", reward);
+            console.log("state index: ", state_index);
+
+            if (Number.isNaN(current_q_value))
+            {
+                    // this.qTable[current_state_index][i-1] = 0;
+                current_q_value = 0;
+            }
+
+            if(Number.isNaN(reward))
+            {
+                reward = 0;
+            }
+            
+            // CHECK IF THE VALUES ARE BEING UPDATED ANYWHERE ELSE THAT MIGHT CAUSE THE NAN VALUES
 
             // Updates the qtable based on the optimal action
             this.qTable[state_index][action_index] = (1 - this.learning_rate) * current_q_value +
                                 this.learning_rate * (reward + this.gamma);
         }
         
-        // chooses a random action with probability 25%
+        // chooses a random action with probability 30%
         else{
             // MIGHT CHANGE IT SO THAT #CHOOSEACTION RETURNS AN INDEX INSTEAD OF AN ACTION
             // SO THAT I CAN GET RID OF THE this.action_index_mapping, kinda redundant
@@ -400,15 +438,31 @@ class reinforcementLearning
             this.actions_to_take.set(random_action, true);
             const new_action_index = this.action_index_mapping.get(random_action)
             this.actions_to_take_array[new_action_index] = true;
-            const new_reward = this.#rewardFunction(prevState, this.current_state);
-            const current_q_value = this.qTable[state_index][action_index];
+            let new_reward = this.#rewardFunction(prevState, this.current_state);
+            let current_q_value = this.qTable[state_index][action_index];
+            console.log("current q value in else conditional q learning loop: ", current_q_value);
+            console.log("new_reward in q learning loop: ", new_reward);
+            console.log("state index: ", state_index);
+
+            if (Number.isNaN(current_q_value))
+            {
+                    // this.qTable[current_state_index][i-1] = 0;
+                current_q_value = 0;
+            }
+
+            if(Number.isNaN(new_reward))
+            {
+                new_reward = 0;
+            }
+                
+            // CHECK IF THE VALUES ARE BEING UPDATED ANYWHERE ELSE THAT MIGHT CAUSE THE NAN VALUES
             
             // updates the qtable based on a random action
             this.qTable[state_index][action_index] = (1 - this.learning_rate) * current_q_value +
                                     this.learning_rate * (new_reward + this.gamma);
         }
 
-        
-        
+        console.log("qtable values: ", JSON.stringify(this.qTable, null, 2));
+
     }
 }

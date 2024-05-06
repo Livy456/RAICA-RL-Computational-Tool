@@ -28,7 +28,11 @@ class Car{
                             {x: this.x + this.width/2,
                             y: this.y + this.height/2}  // bottom right point of car
         ];
-  
+        this.car_img = new Image();
+        this.car_img.src = "../Images/carAvatar.png";
+        // this.car_img.onload()
+        this.damaged_img = new Image();
+        this.damaged_img.src = "../Images/damaged_car.png";
         // might have to change the points of the car to see if this changes  
         // when the player car determines when the intersection occurs
     }
@@ -110,19 +114,19 @@ class Car{
         // default movement for a non player character is forward
         if (! this.player)
         {
-            this.y-=0.2;
+            this.y-=0.1;
         }
 
         // moves player car forward
         if(this.player && (this.learning.actions_to_take_array[Direction.Forward]))
         {
-            this.y -= 0.5
+            this.y -= 0.2
         }
 
         // moves player backward
         else if(this.player && (this.learning.actions_to_take_array[Direction.Backward]))
         {
-            this.y+=0.5
+            this.y+=0.2
         }
 
         // moves player car to right
@@ -138,10 +142,16 @@ class Car{
         }
     }
 
-    updateCar(road_boundaries, traffic)
+    updateCar(road_boundaries, traffic, playing_game=true)
     {
+        if (! playing_game)
+        {
+            this.car_points = this.#createPoints();
+            this.damaged = this.#isDamaged(road_boundaries, traffic);
+        }
+
         // stops the car if collision occurred or if it moved past the road boundaries
-        if((!this.damaged) || (!this.player))
+        if(( (!this.damaged) || (!this.player) ) && (playing_game))
         {
             this.#movePosition();
             this.car_points = this.#createPoints();
@@ -161,45 +171,22 @@ class Car{
         
         if (this.damaged)
         {
-            // ctx.fillStyle = "grey";
-            // change this to grey version of the car
-            const img = new Image();
-            img.onload = () =>{
-                ctx.fillStyle = "grey";
-                ctx.drawImage(img, this.x, this.y, this.width, this.height);
-            };
-            img.src = "../Images/carAvatar.png";
+            // checks if the damaged image has been drawn once onto the canvas
+            if (this.damaged_img.complete)
+                {
+                    ctx.drawImage(this.damaged_img, this.x - this.width/2, this.y - this.height/2, 
+                                this.width+10, this.height+20);
+                }
         }
         else
         {
-            const img = new Image();
-            img.src = "../Images/carAvatar.png";
-
-            img.addEventListener("load", (e) => {
-                ctx.drawImage(img, this.x, this.y, this.width, this.height);
-            });
-            // img.onload = () => {
-            //     // ctx.fillStyle = "black";
-            //     ctx.drawImage(img, 0, 0, 100, 100);
-            //     // console.log("the image is being drawn", 0, 0, 100, 100);
-            // };
-
-            console.log(img.src);
-            
-            ctx.fillStyle = "black";    
+            // checks if the player car image has been drawn once onto the canvas
+            if (this.car_img.complete)
+            {
+                ctx.drawImage(this.car_img, this.x - this.width/2, this.y - this.height/2, 
+                            this.width, this.height);
+            }
         }
-        
-        // // ctx.fillRect(this.x, this.y, this.width, this.height);
-        // ctx.beginPath();
-        // ctx.moveTo(this.car_points[0].x, this.car_points[0].y);
-
-        // for (let i = 1; i < this.car_points.length; i++)
-        // {
-        //     ctx.lineTo(this.car_points[i].x, this.car_points[i].y);
-        // }
-        // ctx.fill();
-    
-        
     }
 
     drawTraffic(ctx)
