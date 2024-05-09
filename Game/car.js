@@ -28,13 +28,20 @@ class Car{
                             {x: this.x + this.width/2,
                             y: this.y + this.height/2}  // bottom right point of car
         ];
-        this.car_img = new Image();
-        this.car_img.src = "../Images/carAvatar.png";
-        // this.car_img.onload()
+        if (player)
+        {
+            this.car_img = new Image();
+            this.car_img.src = "../Images/carAvatar.png";
+            
+        }
+        else{
+            this.car_img = new Image();
+            this.car_img.src = "../Images/trafficAvatar.png";
+        }
+
         this.damaged_img = new Image();
         this.damaged_img.src = "../Images/damaged_car.png";
-        // might have to change the points of the car to see if this changes  
-        // when the player car determines when the intersection occurs
+        
     }
 
     #createPoints()
@@ -175,7 +182,7 @@ class Car{
             if (this.damaged_img.complete)
                 {
                     ctx.drawImage(this.damaged_img, this.x - this.width/2, this.y - this.height/2, 
-                                this.width+10, this.height+20);
+                                this.width, this.height);
                 }
         }
         else
@@ -193,19 +200,29 @@ class Car{
     {
         if (this.damaged)
         {
-            ctx.fillStyle = "red";
+            // ctx.fillStyle = "red";
+            if(this.damaged_img.complete)
+            {
+                ctx.drawImage(this.damaged_img, this.x- this.width/2, this.y-this.height/2, 
+                              this.width, this.height);
+            }
         }
         else
         {
-            ctx.fillStyle = "blue";    
+            // ctx.fillStyle = "blue";   
+            if (this.car_img.complete)
+            {
+                ctx.drawImage(this.car_img, this.x-this.width/2, this.y -this.height/2,
+                              this.width,this.height);  
+            } 
         }
-        ctx.beginPath();
-        ctx.moveTo(this.car_points[0].x, this.car_points[0].y);
+        // ctx.beginPath();
+        // ctx.moveTo(this.car_points[0].x, this.car_points[0].y);
 
-        for (let i = 1; i < this.car_points.length; i++)
-        {
-            ctx.lineTo(this.car_points[i].x, this.car_points[i].y);
-        }
-        ctx.fill();
+        // for (let i = 1; i < this.car_points.length; i++)
+        // {
+        //     ctx.lineTo(this.car_points[i].x, this.car_points[i].y);
+        // }
+        // ctx.fill();
     }
 }

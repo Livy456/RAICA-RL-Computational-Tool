@@ -27,12 +27,10 @@ class reinforcementLearning
             this.qTable.push(q_values);
             this.reward_matrix.push(reward_values);
         }
-        
-        // this.states = this.#getStates();                 // array of possible states for the car
-        // this.actions = this.#getActions();               // array of possible actions for the car
+
         this.learning_rate = this.#getLearningRate();    // learning rate for the q learning process
         this.gamma = 0.9;   
-        this.policy = new Map();                    // empty mapping of optimal action for car to take given a state
+        // this.policy = new Map();                    // empty mapping of optimal action for car to take given a state
         this.current_action = "Forward";            // current action for player car to take
         this.current_state = "Nothing Detected";    // current state for player car
         this.actions_to_take = new Map([
@@ -72,22 +70,6 @@ class reinforcementLearning
         ]);        
     }
 
-    // #getStates()
-    // {
-    //     let states = [];
-        
-    //     for (let number = 0; number < this.num_states; number++)
-    //     {
-    //         let state_number = number + 1;
-    //         let state_name = "state" + state_number.toString();
-    //         let table = document.getElementById(state_name);
-    //         let data = table.innerHTML;
-    //         states.push(data);
-    //     }
-
-    //     return states;
-    // }
-
     #getRewards()
     {
         let reward_array = [];
@@ -125,10 +107,13 @@ class reinforcementLearning
         heading.innerHTML = "Q Values for " + this.current_state;
         let current_state_index = this.state_index_mapping.get(this.current_state);
         this.reward_matrix[current_state_index] = this.reward_array;
-        // console.log("reward_matrix", this.reward_matrix[current_state_index]);
-        // console.log("reward array ", this.reward_array);
-        console.log("qtable values: ", JSON.stringify(this.qTable, null, 2));
+        console.log("current state: ", current_state_index);
+        console.log("reward matrix: ", this.reward_matrix[current_state_index]);
+        console.log();
 
+        // console.log("reward_matrix", this.reward_matrix[current_state_index]);
+        console.log("reward array ", this.reward_array);
+        // console.log("qtable values: ", JSON.stringify(this.qTable, null, 2));
         // let current_state_index = this.state_index_mapping.get(this.current_state);
 
         for (let i=1; i <= this.num_actions; i++)
@@ -138,10 +123,10 @@ class reinforcementLearning
             let reward_id = reward_id_name + i.toString();
             let reward_cell = document.getElementById(reward_id);
             let q_value = this.qTable[current_state_index][i-1].toFixed(2);
-            // console.log("iteration: ", i);
+            console.log("iteration: ", i);
             console.log("qtable for all actions: ", this.qTable[current_state_index] );
             console.log("state_index: ", current_state_index, " q_value: ", q_value);
-            console.log("qtable values: ", JSON.stringify(this.qTable, null, 2));
+            // console.log("qtable values: ", JSON.stringify(this.qTable, null, 2));
 
             let reward_value = this.reward_matrix[current_state_index][i-1];
 
@@ -157,8 +142,7 @@ class reinforcementLearning
             reward_cell.value = reward_value;
         }
         
-
-        // if you store a reference to the state array
+        // if you store a reference to the state array could be aliasing error
     }
 
     // need to make a time step function to be able to make a time step to the next state
@@ -180,9 +164,9 @@ class reinforcementLearning
             // check if sensor intersected something
             if (this.sensor.sensor_readings[i])
             {
-                // console.log("sensor: ", i);
-                // console.log("sensor_readings[i] (x,y): ", this.sensor.sensor_readings[i].x, this.sensor.sensor_readings[i].y);
-
+                console.log("sensor: ", i);
+                console.log("sensor_readings[i] (x,y): ", this.sensor.sensor_readings[i].x, this.sensor.sensor_readings[i].y);
+                console.log("road border: ")
                 // sensors in top right of the car detected something
                 if (i <= num_sensors_quadrant - 1)
                 {
@@ -196,7 +180,6 @@ class reinforcementLearning
                     state = "Left Object Intersection";
                     this.current_state = "Left Road Border Detected";
                 }
-
 
                 // FIX THIS!!
                 // sensors in bottom left of the car detected something
@@ -213,9 +196,9 @@ class reinforcementLearning
                     this.current_state = "Right Road Border Detected";
                 }
 
-                // console.log("current_state: ", this.current_state);
-                // console.log("state: ", state);
-                // console.log("Breaking out of the loop!!!");
+                console.log("current_state: ", this.current_state);
+                console.log("state: ", state);
+                console.log("Breaking out of the loop!!!");
                 break;
             }
         } 
@@ -366,12 +349,21 @@ class reinforcementLearning
     Qlearning()
     {
         // console.log("at the beginning of the q learning: ", this.qTable);
-        console.log("qtable values: ", JSON.stringify(this.qTable, null, 2));
+        // console.log("qtable values: ", JSON.stringify(this.qTable, null, 2));
 
+        // let game_button = document.getElementById("Start-Button");
+
+        // if game_button
         this.#getRewards();
         const state_index = this.state_index_mapping.get(this.current_state);
         this.reward_matrix[state_index] = this.reward_array; // updates the reward values for current state
-        this.#updateValues(); 
+
+        // if car is not damaged then update values
+        if (!this.car.damaged)
+        {
+            console.log("Car is not damaged!!");
+            this.#updateValues(); 
+        }
         
         const prevState = this.current_state;
         const new_state = this.#updateState();
@@ -408,9 +400,9 @@ class reinforcementLearning
             let current_q_value = this.qTable[state_index][action_index];
 
             // console.log("current q value:", current_q_value);
-            console.log("current q value in if conditional q learning loop: ", current_q_value);
-            console.log("reward in q learning loop: ", reward);
-            console.log("state index: ", state_index);
+            // console.log("current q value in if conditional q learning loop: ", current_q_value);
+            // console.log("reward in q learning loop: ", reward);
+            // console.log("state index: ", state_index);
 
             if (Number.isNaN(current_q_value))
             {
@@ -440,9 +432,9 @@ class reinforcementLearning
             this.actions_to_take_array[new_action_index] = true;
             let new_reward = this.#rewardFunction(prevState, this.current_state);
             let current_q_value = this.qTable[state_index][action_index];
-            console.log("current q value in else conditional q learning loop: ", current_q_value);
-            console.log("new_reward in q learning loop: ", new_reward);
-            console.log("state index: ", state_index);
+            // console.log("current q value in else conditional q learning loop: ", current_q_value);
+            // console.log("new_reward in q learning loop: ", new_reward);
+            // console.log("state index: ", state_index);
 
             if (Number.isNaN(current_q_value))
             {
@@ -462,7 +454,7 @@ class reinforcementLearning
                                     this.learning_rate * (new_reward + this.gamma);
         }
 
-        console.log("qtable values: ", JSON.stringify(this.qTable, null, 2));
+        // console.log("qtable values: ", JSON.stringify(this.qTable, null, 2));
 
     }
 }

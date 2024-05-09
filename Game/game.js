@@ -8,11 +8,24 @@ const HIGHWAY_LINE_WIDTH = 5;
 const HIGHWAY_LANE_COUNT = 3;
 const CAR_WIDTH = 30;
 const CAR_HEIGHT = 45;
-const player_car_position = [WIDTH/2 + 10, 2 * HEIGHT/3 + 150];
-const traffic_car_positions = [ [WIDTH/2 + 10, -HEIGHT/2],
+const player_car_position = [WIDTH/2 + 10, 2 * HEIGHT/3+100];
+// [WIDTH/2 + 10, 2 * HEIGHT/3 + 150];
+const traffic_car_positions = [ 
+                                [WIDTH/2 + 10, HEIGHT/2 -50],
                                 [WIDTH/2 + 10, -3*HEIGHT/2],
-                                [WIDTH/2 + 10, HEIGHT/8],
-                                [WIDTH/2 + 10, -3* HEIGHT/4] ];
+                                [WIDTH/2 + 10, -HEIGHT],
+                                // [WIDTH/2 + 10, -3* HEIGHT/4]
+                                [WIDTH/2 + 10, 2* HEIGHT/3]
+                              ];
+
+
+
+for (let i=0; i < traffic_car_positions.length; i++)
+{
+    let position = traffic_car_positions[i];
+
+    console.log("this is ", i, " th car's height: ", position[1]);
+}
 
 // Instantiate Objects for game
 const highway = new Road(WIDTH/2, 10, HIGHWAY_LANE_COUNT, "highway", CAR_WIDTH); // instantiates a road instance
@@ -26,9 +39,9 @@ let traffic = [
 
 function changeRewardValue(id, index){
     
-    console.log("inside change reward value!!!");
+    // console.log("inside change reward value!!!");
     let textfield = document.getElementById(id);
-    console.log("textfield: ", textfield);
+    // console.log("textfield: ", textfield);
     // console.log("before: ", car.learning.reward_array[index]);
 
     // updates the reward array
@@ -87,12 +100,9 @@ function startPlayingGame(){
 
 function animateGame()
 {       
-    // car.updateCar(highway.road_boundaries, traffic, false); // updates the position of the car
-    // car.drawPlayer(context);    // redraws the car object on the canvas
-    // highway.drawHighwayRoad(context);   // draws the highway state for the game
     let button = document.getElementById("Start-Button");
 
-    if(button.value === "Pause" || button.value === "Reset")
+    if(button.value === "Pause")
     {
         context.clearRect(0, 0, context.canvas.width, context.canvas.height);
         for(let i = 0; i < traffic.length; i++)
@@ -104,17 +114,23 @@ function animateGame()
         
         // make the highway seem like it's moving
         context.save();
-        context.translate(0, -car.y + 2 * HEIGHT/3); // WEIRD 1 PIXEL HORIZONTAL BLUE LINE FORMS ON THE CANVAS
-                                    
+        // context.translate(0, -car.y + 2 * HEIGHT/3);
+        // context.translate(0, -car.y);       
+        // context.translate(0, HEIGHT); 
+        context.translate(0, -car.y - HEIGHT);
+        // console.log("translation amount: ", -car.y + HEIGHT + 50);
+        // console.log("car location: ", car.y, "; negation of location: ", -car.y);
+        // console.log("height: ", HEIGHT);
+
         highway.drawHighwayRoad(context);   // draws the highway state for the game
-        
-        // draws traffic cars on the canvas
+        context.restore();
+
+        // redraws traffic cars on the canvas
         for (let j=0; j < traffic.length; j++)
         {
             traffic[j].drawTraffic(context); 
+            // console.log("I am drawing traffic!!");
         }
-        
-        context.restore();
         car.drawPlayer(context);    // redraws the car object on the canvas
     }
 
@@ -124,6 +140,8 @@ function animateGame()
     if (car.damaged)
     {
         button.value = "Reset";
+        car.learning.current_state = "Collision";
+
     }
 }
 
