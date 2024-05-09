@@ -8,7 +8,7 @@ const HIGHWAY_LINE_WIDTH = 5;
 const HIGHWAY_LANE_COUNT = 3;
 const CAR_WIDTH = 30;
 const CAR_HEIGHT = 45;
-const player_car_position = [WIDTH/2 + 10, 2 * HEIGHT/3+100];
+const player_car_position = [WIDTH/2 + 10, 2 * HEIGHT/3+150];
 // [WIDTH/2 + 10, 2 * HEIGHT/3 + 150];
 const traffic_car_positions = [ 
                                 [WIDTH/2 + 10, HEIGHT/2 -50],
@@ -117,7 +117,7 @@ function animateGame()
         // context.translate(0, -car.y + 2 * HEIGHT/3);
         // context.translate(0, -car.y);       
         // context.translate(0, HEIGHT); 
-        context.translate(0, -car.y - HEIGHT);
+        context.translate(0, -car.y - HEIGHT*2);
         // console.log("translation amount: ", -car.y + HEIGHT + 50);
         // console.log("car location: ", car.y, "; negation of location: ", -car.y);
         // console.log("height: ", HEIGHT);

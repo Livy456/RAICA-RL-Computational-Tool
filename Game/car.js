@@ -16,7 +16,7 @@ class Car{
         this.player = player; // boolean value indicating if car is player or not
         this.damaged = false;   // confirms whether the car is damaged or not 
         this.car_sensors = new Sensor(this); // creates sensor object using car instance
-        this.learning = new reinforcementLearning(this, this.car_sensors); 
+        this.learning = new ReinforcementLearning(this, this.car_sensors); 
 
         this.car_points = [
                             {x: this.x - this.width/2,
@@ -96,13 +96,7 @@ class Car{
         // checks if the player car collided with traffic car
         for (let i=0; i < traffic.length; i++)
         {
-            // DOESN'T WORK, NO TRAFFIC CAR 
-            // checks if the player car collides with any of the trafic cars
-            // if(trafficIntersection(this.car_points, traffic[i].car_points, this))
-            // {
-            //     return true;
-            // }
-
+            
             if (objectIntersection(this.car_points, traffic[i].car_points))
             {
                 // console.log("car class, is damaged function, the car detected me!!!");
@@ -110,7 +104,6 @@ class Car{
             }
         }
 
-        // debugger; // acts as a breakpoint
         return false;
     }
 
@@ -200,29 +193,20 @@ class Car{
     {
         if (this.damaged)
         {
-            // ctx.fillStyle = "red";
             if(this.damaged_img.complete)
             {
-                ctx.drawImage(this.damaged_img, this.x- this.width/2, this.y-this.height/2, 
+                ctx.drawImage(this.damaged_img, this.x- this.width/2, this.y, 
                               this.width, this.height);
             }
         }
+
         else
         {
-            // ctx.fillStyle = "blue";   
             if (this.car_img.complete)
             {
-                ctx.drawImage(this.car_img, this.x-this.width/2, this.y -this.height/2,
+                ctx.drawImage(this.car_img, this.x-this.width/2, this.y ,
                               this.width,this.height);  
             } 
-        }
-        // ctx.beginPath();
-        // ctx.moveTo(this.car_points[0].x, this.car_points[0].y);
-
-        // for (let i = 1; i < this.car_points.length; i++)
-        // {
-        //     ctx.lineTo(this.car_points[i].x, this.car_points[i].y);
-        // }
-        // ctx.fill();
+        } 
     }
 }

@@ -1,4 +1,4 @@
-class reinforcementLearning
+class ReinforcementLearning
 {
     constructor(car, sensor)
     {
@@ -148,11 +148,14 @@ class reinforcementLearning
     // need to make a time step function to be able to make a time step to the next state
     #updateState()
     {
+       
         let state = "Nothing Detected";
         const num_sensors_quadrant = parseInt(this.sensor.num_sensors / 4);
+        
         // console.log("damaged: ", this.car.damaged);
         if(this.car.damaged)
         {
+            console.log("inside update State!!!");
             return "Collision";
         }
 
@@ -196,9 +199,9 @@ class reinforcementLearning
                     this.current_state = "Right Road Border Detected";
                 }
 
-                console.log("current_state: ", this.current_state);
-                console.log("state: ", state);
-                console.log("Breaking out of the loop!!!");
+                // console.log("current_state: ", this.current_state);
+                // console.log("state: ", state);
+                // console.log("Breaking out of the loop!!!");
                 break;
             }
         } 
@@ -350,20 +353,11 @@ class reinforcementLearning
     {
         // console.log("at the beginning of the q learning: ", this.qTable);
         // console.log("qtable values: ", JSON.stringify(this.qTable, null, 2));
-
-        // let game_button = document.getElementById("Start-Button");
-
-        // if game_button
         this.#getRewards();
         const state_index = this.state_index_mapping.get(this.current_state);
         this.reward_matrix[state_index] = this.reward_array; // updates the reward values for current state
-
-        // if car is not damaged then update values
-        if (!this.car.damaged)
-        {
-            console.log("Car is not damaged!!");
-            this.#updateValues(); 
-        }
+        this.#updateValues(); 
+        
         
         const prevState = this.current_state;
         const new_state = this.#updateState();
@@ -399,10 +393,10 @@ class reinforcementLearning
             let reward = this.reward_array[action_index];
             let current_q_value = this.qTable[state_index][action_index];
 
-            // console.log("current q value:", current_q_value);
-            // console.log("current q value in if conditional q learning loop: ", current_q_value);
-            // console.log("reward in q learning loop: ", reward);
-            // console.log("state index: ", state_index);
+            console.log("current q value:", current_q_value);
+            console.log("current q value in if conditional q learning loop: ", current_q_value);
+            console.log("reward in q learning loop: ", reward);
+            console.log("state index: ", state_index);
 
             if (Number.isNaN(current_q_value))
             {
@@ -432,9 +426,9 @@ class reinforcementLearning
             this.actions_to_take_array[new_action_index] = true;
             let new_reward = this.#rewardFunction(prevState, this.current_state);
             let current_q_value = this.qTable[state_index][action_index];
-            // console.log("current q value in else conditional q learning loop: ", current_q_value);
-            // console.log("new_reward in q learning loop: ", new_reward);
-            // console.log("state index: ", state_index);
+            console.log("current q value in else conditional q learning loop: ", current_q_value);
+            console.log("new_reward in q learning loop: ", new_reward);
+            console.log("state index: ", state_index);
 
             if (Number.isNaN(current_q_value))
             {
@@ -454,7 +448,13 @@ class reinforcementLearning
                                     this.learning_rate * (new_reward + this.gamma);
         }
 
-        // console.log("qtable values: ", JSON.stringify(this.qTable, null, 2));
+        if(this.car.damaged)
+        {
+            console.log("THE CAR HAS BEEN DAMAGED, reinforcementLearning.js");
+        }
 
+        // console.log("qtable values: ", JSON.stringify(this.qTable, null, 2));
     }
 }
+
+// export {traffic} from '.game.js';
