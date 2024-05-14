@@ -39,14 +39,10 @@ let traffic = [
 
 function changeRewardValue(id, index){
     
-    // console.log("inside change reward value!!!");
     let textfield = document.getElementById(id);
-    // console.log("textfield: ", textfield);
-    // console.log("before: ", car.learning.reward_array[index]);
-
+   
     // updates the reward array
     car.learning.reward_array[index] = textfield.value;
-    // console.log("after: ", car.learning.reward_array[index]);
 }
 
 function startPlayingGame(){
@@ -129,7 +125,6 @@ function animateGame()
         for (let j=0; j < traffic.length; j++)
         {
             traffic[j].drawTraffic(context); 
-            // console.log("I am drawing traffic!!");
         }
         car.drawPlayer(context);    // redraws the car object on the canvas
     }

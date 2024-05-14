@@ -41,7 +41,6 @@ class Car{
 
         this.damaged_img = new Image();
         this.damaged_img.src = "../Images/damaged_car.png";
-        
     }
 
     #createPoints()

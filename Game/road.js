@@ -16,12 +16,7 @@ class Road{
         const bottom_left_road = {x: this.left - car_width - 5, y: this.bottomRoad};
         const top_right_road = {x: this.right + car_width + 5, y: this.topRoad};
         const bottom_right_road = {x: this.right + car_width + 5, y: this.bottomRoad};
-        
-        // const top_left_road = {x: this.left - car_width - 5, y: -550};
-        // const bottom_left_road = {x: this.left - car_width - 5, y: 550};
-        // const top_right_road = {x: this.right + car_width + 5, y: -550};
-        // const bottom_right_road = {x: this.right + car_width + 5, y: 550};
-
+    
         this.road_boundaries = [[top_left_road, bottom_left_road],
                                   [top_right_road, bottom_right_road]];
     }
