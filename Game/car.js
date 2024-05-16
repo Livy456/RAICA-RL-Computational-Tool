@@ -120,6 +120,7 @@ class Car{
         if(this.player && (this.learning.actions_to_take_array[Direction.Forward]))
         {
             this.y -= 0.2
+            // this.y -= 1;
         }
 
         // moves player backward

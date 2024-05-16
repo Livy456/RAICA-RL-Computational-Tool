@@ -107,77 +107,72 @@ class ReinforcementLearning
 
     // need to make a time step function to be able to make a time step to the next state
     #updateState()
-    {
-       
-        let state = "Nothing Detected";
+    {  
         const num_sensors_quadrant = parseInt(this.sensor.num_sensors / 4);
 
         if(this.car.damaged)
         {
             console.log("inside update State!!!");
             this.current_state = "Collision";
-            return "Collision";
         }
 
         for (let i=0; i < this.sensor.num_sensors; i++)
         {
-        
+            
             // check if sensor intersected something
             if (this.sensor.sensor_readings[i])
             {
-                // console.log("sensor: ", i);
-                // console.log("sensor_readings[i] (x,y): ", this.sensor.sensor_readings[i].x, this.sensor.sensor_readings[i].y);
-                // console.log("road border: ", );
+                console.log("sensor: ", i);
+                console.log("sensor_readings[i].x,y (x,y): ", this.sensor.sensor_readings[i].x, this.sensor.sensor_readings[i].y);
+                console.log("sensor readings [i]: ", this.sensor.sensor_readings[i]);
                 
                 
                 // checking if left road border was detected 
-                if (this.sensor.sensor_readings[i].x < WIDTH/4)
+                if (this.sensor.sensor_readings[i].x <= WIDTH/4)
                 {
-                    state = "Left Object Intersection";
                     this.current_state = "Left Road Border Detected";
+                    console.log("Left road border detected; sensor.sensor_readings[i].x <= WIDTH / 4, sensor: ", i);
                 } 
                 
-                else if(this.sensor.sensor_readings[i].x > 3*WIDTH/4)
+                else if(this.sensor.sensor_readings[i].x >= 3*WIDTH/4)
                 {
-                    state = "Right Object Intersection";
                     this.current_state = "Right Road Border Detected";
+                    console.log("Right road border detected; sensor.sensor_readings[i].x >= 3*WIDTH / 4, sensor: ", i);
                 }
                 
                 // sensors in top right of the car detected something
-                else if (i <= num_sensors_quadrant - 1)
+                else if (i < num_sensors_quadrant - 1)
                 {
-                    state = "Object Intersection in Front";
                     this.current_state = "Car Detected";
+                    // this.current_state = "Left Road Border Detected";
+                    console.log("sensor number: ", i);
+                    console.log("I am in quadrant one: ");
+                    console.log(this.sensor.sensor_readings[i].x);
+                    console.log(WIDTH / 4);
                 }
 
                 // sensors in bottom right of the car detected something
                 else if(num_sensors_quadrant - 1 < i && i <= 2*num_sensors_quadrant - 1)
                 {
-                    state = "Left Object Intersection";
-                    this.current_state = "Left Road Border Detected";
+                    this.current_state = "Right Road Border Detected";
                 }
 
                 // FIX THIS!!
                 // sensors in bottom left of the car detected something
                 else if(2*num_sensors_quadrant - 1 < i && i <= 3*num_sensors_quadrant - 1)
                 {
-                    state = "Left Object Intersection";
                     this.current_state = "Right Road Border Detected";
                 }
 
                 // sensors in the right of the car detect something
-                else if (i <= 4*num_sensors_quadrant-1)
+                else if (i <= 4*num_sensors_quadrant-1 && i >= 3*num_sensors_quadrant - 1)
                 {
-                    state = "Object Intersection in to Right";
-                    this.current_state = "Right Road Border Detected";
+                    this.current_state = "Car Detected";
                 }
 
                 break;
             }
         } 
-
-        // if there are no sensor readings then defaults to "Nothing Detected"
-        return state
     }
 
     #optimalQValue(transition_state_index)

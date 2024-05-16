@@ -109,14 +109,13 @@ function animateGame()
         car.updateCar(highway.road_boundaries, traffic); // updates the position of the car
         
         // make the highway seem like it's moving
-        context.save();
         // context.translate(0, -car.y + 2 * HEIGHT/3);
         // context.translate(0, -car.y);       
         // context.translate(0, HEIGHT); 
-        context.translate(0, -car.y - HEIGHT*2);
-        // console.log("translation amount: ", -car.y + HEIGHT + 50);
-        // console.log("car location: ", car.y, "; negation of location: ", -car.y);
-        // console.log("height: ", HEIGHT);
+        // context.translate(0, -car.y - HEIGHT*2);
+
+        context.save();
+        context.translate(0, -car.y - 2*HEIGHT/3);
 
         highway.drawHighwayRoad(context);   // draws the highway state for the game
         context.restore();
